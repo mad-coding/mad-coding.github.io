@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[oneindex后续]]></title>
+    <url>%2F2019%2F08%2F16%2Foneindex%E5%90%8E%E7%BB%AD%2F</url>
+    <content type="text"><![CDATA[0x00 前言​ 在前一篇文章《使用onedrive+oneindex打造一个专属个人网盘》中，我们已经成功的搭建好了一个网盘了，但是这还不算完美，还需要增加一些小细节，比如文件夹加密，文件夹描述，云盘底部介绍等等，下面就来给大家讲讲如何实现。 0x01 实现文件夹加密功能实现文件夹加密的功能非常简单，原理就是在需要加密的文件夹中创建一个.password的文件，然后在该文件中输入自己需要设置的密码即可。但是，问题来了，我们正常情况下，Windows是不允许创建一个没有名称的文件的，提示如下。 那么，该如何解决这个问题尼？ 其实还是有方法的。比如在cmd中使用命令来直接创建该文件，就不会出现这种情况了，具体操作如下： 123cd Desktop #切换到桌面echo 123456 &gt; .password #创建.password文件，并将123456写入该文件#123456就是加密的文章夹密码 .password文件创建好后，可以上传到你想加密的文件夹，当然这个文件也可以复制到其他文件夹，这样就不需要每次重复创建了。 如果想立马看到效果的话，去oneindex后台重新刷新一下缓存， 再次访问发现成功加密文件夹，需要输入密码才能访问 ps1：这里输入密码访问成功访问后，发现后面就不用再次输入密码了，原因是浏览器记录了缓存信息，再次使用一个新的浏览器打开还是需要密码的，所以不用担心。 ps2：如果需要实现在加密的文件夹中再加密文件夹，原理还是一样的，也是在需要加密的文件夹中放入.password文件即可，这样的话，就可以给每个不同的私人文件夹放置不同的密码，即使一个文件夹的密码被猜解出来，其他文件夹也还是安全的。 0x02 网盘底部创建介绍信息这个功能实现过程非常的简单，只需要在网盘根目录中新建一个README.md文件即可，然后在该文件中写入自己需要介绍的信息。 0x03 总结如果还有新功能，会在跟新。皮卡皮卡^v^ ###]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>oneindex;onedrive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何将*.frm，*.MYD和*.MYI格式的文件导入MySQL中]]></title>
+    <url>%2F2019%2F08%2F14%2F%E5%A6%82%E4%BD%95%E5%B0%86-frm%EF%BC%8C-MYD%E5%92%8C-MYI%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%96%87%E4%BB%B6%E5%AF%BC%E5%85%A5MySQL%E4%B8%AD%2F</url>
+    <content type="text"><![CDATA[0x00 前言​ 在学mysql数据库的时候，可能有小伙伴经常碰到.frm, .MYD，.MYI 的文件，但是却不知道如何还原其中的数据，今天博客也是碰到了一样的问题，经过在晚上一番搜索后，成功还原了，在这里记录一下，然后分享给大家。 0x01 操作步骤创建数据库 1CREATE DATABASE test2 执行成功 刷新数据库 利用PHPstudy找到mysql数据库的安装路径，然后找到data文件夹 将.frm，.MYD和*.MYI的文件都复制到刚刚创建的数据库文件夹中 再次回到小海豚中刷新数据库，发现表已经出现了 然后，然后就能看到数据库。哇卡卡。 0x02 踩坑说明 我自己在虚拟机中单独安装了mysql5.5的数据库，然后使用小海豚进行连接，但是发现，创建数据库的时候，在mysql的数据库安装文件夹的data中没有出现最新创建的数据库文件夹，。。。。郁闷，为啥每次这些坑都会被我碰到。。。， 解决方法：我想起来PHPstudy中集成了mysql，于是，我直接卸载了mysql，直接安装了PHPstudy，然后成功还原了数据库。]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[onedrive+oneindex打造属于自己的个人网盘]]></title>
+    <url>%2F2019%2F08%2F09%2Fonedrive-oneindex%E6%89%93%E9%80%A0%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%9B%98%2F</url>
+    <content type="text"><![CDATA[0x00 前言​ 前几天在别人的博客中看到有自己搭建的个人专属网盘，看起来还不错的样子，然后了解到是用onedrive+oneindex来实现的，所以自己也通过在网上学习一些相关的文章，并且搭建成功了，所以在这里分享一下搭建的流程，一来是给自己的总结，二来是分享给需要的朋友。 0x01 环境准备 环境需求： 1.vps一个 2.宝塔面板环境，Nginx，PHP需要5.6以上版本 3.onedrive 5T空间 4.oneindex 5.域名一个 vps购买访问vps购买地址选择经济实惠的Linux VPS 然后拉到最底下，选择kvm的vps，当然选择openVZ的也可以。 选择第一个2.5刀的 选择操作系统和带宽 选择vps的位置，然后加入购物车 结账 填写相关信息，然后选择支付宝付款 宝塔面板的安装entos安装命令： 1yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh Ubuntu/Deepin 安装命令： 1wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh &amp;&amp; sudo bash install.sh Debian安装命令： 1wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh &amp;&amp; bash install.sh Fedora安装命令: 1wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; bash install.sh Nginx和PHP的安装​ 安装完宝塔面板后，在浏览器中输入vpsip:8888进入宝塔面板，登陆的账号密码在成功安装宝塔后会有提示，根据提示输入登陆就好了，一般情况下第一次登陆宝塔会提示让你安装LNMP环境或者LAMP环境，我们选择安装Nginx+PHP5.6就好了，mysql和phpmyadmin不需要安装 安装的进度如下，耐心等待安装完成即可。 0x02 注册365邮箱​ 临时邮箱网址：https://t.odmail.cn/ 复制网页中的邮箱然后选择 学生版 or 教师版 在注册,记住，页面不要关闭，待会需要接收验证码 输入刚刚的邮箱 返回刚刚临时邮箱的页面，接收到验证码了 输入验证码 输入相关信息完成注册 需要用手机号验证一下 注册完成 0x03 安装oneindex注册域名域名注册地址直接购买，不懂的，出门右拐百度 设置域名解析在域名管理中设置域名解析 A记录指向是自己的vps ip地址pan是域名的二级域名，也就是pan.xxx.com 安装oneindex注册好了onedrive以后，我们现在有5T的空间了，具体有没有5T，会在后面上传的部分介绍如何查看 首先需要下载oneindex的源码，GitHub下载地址：onindex 然后登陆宝塔面板，配置一下 填写自己注册的域名 点击进入网站目录 然后刚刚下载的oneindex源码上传上去，也可以使用远程下载直接远程下载oneindex的源码，如果是自己上传的，需要解压缩一下，解压完以后如下图： 然后访问自己的域名直接安装，必须全部都是√才行，如果3,4的权限不够需要在宝塔面板中赋予该文件夹可读可写的权限 都是√的可以跳过不看这个 重新回到宝塔面板给需要赋予权限的两个文件夹赋权 再次刷新，OK，都是√了， 0x04 oneindex的基本设置输入域名/?/admin进入oneindex后台管理系统，初始密码是oneindex 修改网盘的名称 在宝塔中设置定时刷新缓存计划 在宝塔面板中添加计划任务 0x05 文件上传​ 为了方便我们上传文件到网盘中，我们需要用到RaiDrive将网盘映射到本地计算机中，当做本地磁盘来使用，具体操作如下：RaiDrive下载:官网地址,蓝奏云盘 下载完以后就是一步步安装了，傻瓜式操作，下面主要讲一下安装完以后如何将网盘映射到本地 首先，安装好的RAIDrive是英文的，不习惯得话可以设置成中文，如图 然后将网盘映射到本地，操作如下 点击接受 耐心等待一会以后 0x06 碰到的问题授权5T空间的时候碰到错误问题描述： 问题原因： 没有使用开通5T onedrive空间的账号登陆 解决方法： 如果有5T 的onedrive空间的账号，直接使用该账号登陆即可，如果没有的话，需要自己重新注册一个即可。 网盘文章打开404问题描述： 上传到网盘的文件，点击打开以后显示404 问题原因： 没有设置伪静态，导致访问文件时找不到资源文件。 解决方法： 设置好以后再次访问域名，发现里面的文件夹和文件都可以直接点击查看 解决图片打开是404问题将伪静态替换成下面 1234567891011rewrite ^./files/(.) /wp-includes/ms-files.php?file=1 last;if (!-e $request_filename)&#123;rewrite ^.+?(/wp-.*) $1 last;rewrite ^.+?(/.*.php)$ $1 last;rewrite ^ /index.php last;&#125; 成功访问 参考链接： https://www.52pojie.cn/thread-847650-1-1.html https://github.com/donwa/oneindex https://blog.csdn.net/github_39533414/article/details/83687260 https://www.moerats.com/archives/592/ http://www.sumbk.com/339.html http://blog.jialezi.net/?post=120]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>oneindex</tag>
+        <tag>onedrive</tag>
+        <tag>个人网盘</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[给博客添加豆瓣书架功能]]></title>
+    <url>%2F2019%2F08%2F09%2F%E7%BB%99%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%B1%86%E7%93%A3%E4%B9%A6%E6%9E%B6%E5%8A%9F%E8%83%BD%2F</url>
+    <content type="text"><![CDATA[0x00 前言在一次浏览个人博客网站的过程中，返现有个网站有豆瓣读书的功能，可以在页面展示自己读了哪些书，想看哪些书等，我觉得这个功能特别的好，可以记录自己的读书，还可以在读完以后写上自己的书评。下面来给大家讲讲怎么在自己的博客中实现这个功能。 0x01 成品展示 0x02 需求配置安装插件在博客的根目录下输入命令安装 npm install hexo-douban --save 站点配置文件中添加配置在Hexo站点根目录配置文件_config.xml中的末尾添加如下配置： 12345678910111213douban: user: mythsman builtin: false book: title: 'This is my book title' quote: 'This is my book quote' movie: title: 'This is my movie title' quote: 'This is my movie quote' game: title: 'This is my game title' quote: 'This is my game quote' timeout: 10000 上面参数说明： user: 你的豆瓣ID.打开豆瓣，登入账户，然后在右上角点击 “个人主页” ，这时候地址栏的URL大概是这样：”https://www.douban.com/people/xxxxxx/“ ，其中的”xxxxxx”就是你的个人ID了。 builtin: 是否将生成页面的功能嵌入hexo s和hexo g中，默认是false,另一可选项为true(1.x.x版本新增配置项)。 title: 该页面的标题. quote: 写在页面开头的一段话,支持html语法. timeout: 爬取数据的超时时间，默认是 10000ms ,如果在使用时发现报了超时的错(ETIMEOUT)可以把这个数据设置的大一点。 由于hexo-douban是默认抓取豆瓣读书、豆瓣电影以及豆瓣游戏的，如果只想要其中一部分，可以把其它部分在上述配置文件中去掉即可。 0x03 启用使用插件安装好了，需要配置的也配置好了，下面就需要生成我们的豆瓣书架、电影页面了。 生成页面在GitBash下输入命令： 1234567hexo clean #清除之前生成的文件hexo douban -bmg #生成豆瓣书籍、电影、游戏页面hexo g #生成文章hexo s #启动本地服务器hexo deploy #上传部署#-bgm代表的是book、game、movie三个参数，如果只需要其中的一部分就只带你想要的那些参数。 注：由于hexo douban的简写也是hexo d，与hexo deploy的简写指令hexo d冲突，因此在进行二者部署的时候，只能都打全名而不能打简写形式 测试如果在hexo douban -bmg这步没有问题的话，会出现如下信息 然后我们只需要在站点目录下测试http://localhost:4000/books 或者 http://localhost:4000/movies等，如果看到页面了就说明成功了。 配置如果上述都没有问题，我们就可以在菜单栏中添加按钮了，打开主题配置文件_config.xml，找到菜单按钮，可以选择性的添加下面内容： 123456menu: home: / archives: /archives books: /books # 这是链接到books页面 movies: /movies # 这是链接到movies页面 games: /games # 这是链接到games页面 注意添加完成之后按钮并不是中文的，这是由于在languages文件夹下面的zh-CN（中文语言配置文件）没有添加上述对应的中文参数信息，所以我们需要主动添加,语言文件夹在你的主题配置文件夹下面，如下图 在menu菜单下添加： 1234menu: books: 阅读 movies: 电影 games: 游戏 0x04 碰到的问题输入hexo douban -bg以后，发现没有按照教程一样产生相关的页面 在网上百度，Google了好久都没有相关的问题，只有相关的教程，也重装了无数次，还是不成功，但是这个插件明明是支持next主题的，所以我就在虚拟机里面重新搭建了一个干干净净的博客，然后安装上这个插件后，发现可以正常产生页面的。 所以断定，肯定是我的博客配置出现了问题而不是插件的问题了，在精确定位一下问题：要么是主题的配置的问题，要么的hexo的配置问题，要么是可能去之前安装的功能插件冲突。 通过将原始的配置复制到我的博客中，发现产生，同构将我博客中的配置文件复制到原始的配置中，发现不能产生，从而断定了问题是出在hexo的站点配置文件中，因为我直接将新的站点配置文件复制进去是可以正常产生页面的。所以在进一步排查到底是站点配置文件中的什么配置出了问题。 最后查出，原来是douban:前面多了空格，必须要顶格才行。 再次运行hexo douban -bmg成功生成books和games页面。 0x05 参考链接https://github.com/mythsman/hexo-douban]]></content>
+      <categories>
+        <category>hexo</category>
+        <category>豆瓣</category>
+        <category>test</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>豆瓣书架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[github+hexo+域名搭建一个自己的网站]]></title>
+    <url>%2F2019%2F08%2F09%2Fgithub-hexo-%E5%9F%9F%E5%90%8D%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BD%91%E7%AB%99%2F</url>
+    <content type="text"><![CDATA[0x00 前言​ 在一次无意的搜索文章中，看到了一个特别好的网站，不管是前端还是网站的内容都做的非常吸引人。我一开始以为是WordPress搭建的个人博客，后台得知使用hexo+GitHub来搭建的，顿时心中的博客火又染了起来。$_$因为我之前也用WordPress搭建过自己的博客，但是由于需要购买阿里云的服务器，这对于我这个穷人来说是一笔开销，所以在服务器到期以后就没有在续费了，而hexo+GitHub搭建的是完全免费的，利用的是GitHub page，然后hexo将我们写的博客渲染成静态页面在部署到GitHub中去，最后在前端展现出来。下面就给大家介绍一个搭建的过程。 #0x01 环境准备 需要的东西： node.js git hexo GitHub账号 域名 ##node和git的安装 Node.js下载](http://nodejs.org/) ，Git下载 ，下载完成以后，直接傻瓜式下一步安装即可。 按win+R 输入cmd命令来检查是否安装成功 12node -v #查看node版本git -v #查看git版本 出现下图说明安装成功 ##hexo的安装 首先需要新建一个空的Blog文件夹，可以在任意盘符右击新建个文件夹，也可以通过cmd命令来完成 输入Blog文件夹下输入npm install hexo -g安装hexo（速度根据你的实时网速） 输入hexo -v，检查hexo是否安装成功 输入hexo init，初始化该文件夹（需要等待一会） 输入npm install，安装所需要的组件 输入hexo g（=hexo generate），生成静态页面 输入hexo s（=hexo server），开启服务器，访问该网址，正式体验Hexo 访问http://localhost:4000 出现下图，说明本地搭建成功 命令总结： 123456hexo -v #查看hexo版本hexo init #初始化hexohexo install #安装hexohexo g #将文章渲染成静态页面hexo s #启动本地hexo服务器hexo d #部署到GitHub（后面介绍） 注册GitHub账号注册地址：github 输入用户名，邮箱和账号密码后点击注册，进入第二步 选择免费个人版 去刚刚注册的邮箱验证一下即可 购买域名购买域名是为了将GitHub的默认域名解析到自己的域名下，这样以后就可以直接访问自己的域名了，不需要在输入GitHub的默认域名了。 腾讯注册域名传送门 阿里云注册域名传送门 #0x02 搭建hexo博客 配置GitHub首先需要创建一个新的repository仓库， ​ 一直往下拉，找到GitHub pages 访问链接效果如下： 将Hexo与Github page联系起来，设置Git的user name和email（如果是第一次的话） 分别输入： 12git config --global user.name "madcoding"git config --global user.email "madcoding@163.com" 注：这里“madcoding”可以替换成自己的用户名，邮箱可以替换成自己的邮箱 输入ssh-keygen -t rsa -C “madcoding163.com”连续三个回车，生成密钥，最后得到了两个文件：id_rsa和id_rsa.pub（默认存储路径是：C:\Users\Administrator.ssh）。 输入eval &quot;$(ssh-agent -s)&quot;，添加密钥到ssh-agent 再输入ssh-add ~/.ssh/id_rsa，添加生成的SSH key到ssh-agent 在目录C:\Users\Administrator.ssh下载，找到下面两文件 用记事本打开id_rsa.pub，复制里面的内容 添加成功 继续在Git bash中输入ssh -T git@github.com 然后输入两次yes，返回下图说明连接成功 自定义域名设置在Blog的source目录下，新建一个CANME文件，具体操作如下 在cmd窗口中输入ping 用户名.github.io 得到GitHub分配的一个公网ip地址，记下这个地址 ##设置域名解析 然后到阿里云购买好的域名中心，设置域名解析，下面是设置好的结果 设置步骤： ##配置部署 在Blog的根目录下，找到_config.yml文件，修改repo值（在末尾） 在Git bash中输入hexo new post “test” 这时，可以在source文件下的_posts文件夹中看到刚刚新建的test文件，写文章可以直接在该文档中去写 在生成以及部署文章之前，需要安装一个扩展： npm install hexo-deployer-git –save 使用编辑器编好文章，那么就可以使用命令：hexo g 来生成静态的文档 然后使用hexo d 来部署到GitHub中 如果点击login后dos界面没有反应，按一下enter键就好了 出现下图，部署成功 0x03 美化博客##跟换主题 1.可以直接去hexo官方主题库中去找一个自己喜欢的主题去下载，然后下载完成后复制到themes文件夹下。传送门 2.在Blog目录下，右击，点击Git bash here，然后输入 git clone https://github.com/shenliyang/hexo-theme-snippet.git 博客导航栏设置在上面的网站界面，可以发现网站的文字是英文，只要修改一下语言模式即可。打开根目录文件夹下的 _config.yml 配置文件。找到 language，设置为 zh-CN。标题等其他参数的设置如下。可以对照效果图的具体位置，根据自己的实际需求进行修改。（注意：修改了项目根目录下的 _config.yml配置文件，需要重启部署项目后才能生效） 0x06 参考链接https://www.cnblogs.com/fengxiongZz/p/7707219.html https://www.simon96.online/2018/10/12/hexo-tutorial/ https://blog.csdn.net/liuyongshun2/article/details/54629087]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>github</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[自定义hexo创建文章的模板]]></title>
+    <url>%2F2019%2F08%2F02%2F%E8%87%AA%E5%AE%9A%E4%B9%89hexo%E5%88%9B%E5%BB%BA%E6%96%87%E7%AB%A0%E7%9A%84%E6%A8%A1%E6%9D%BF%2F</url>
+    <content type="text"><![CDATA[0x00 前言在众多的博客中，我选择了hexo，最大的优势就是可以结合GitHub page来搭建一个免费的个人博客系统，将文章都托管到GitHub上，在也不用担心服务器过期的问题了，而且可以自己买一个域名，解析了GitHub上就可以直接使域名访问了。很多小伙伴给自己个博客添加了很多其他的功能，但是每次写文章的时候都需要在文章的开头去写一遍，这简直就是重复造轮子。其实，你可以自己在scaffolds中去修改属于你自己的模板 0x01 目录了解123456789101112131415161718192021hexo-install-directory├── CNAME├── _config.yml //Hexo的配置文件，可以配置主题、语言等├── avatar.jpg├── db.json├── debug.log├── node_modules├── public //执行hexo g命令后，生成的内容会在这里，包括所有的文章、页面、分类、tag等.├── scaffolds //保存着默认模板，自定义模板就是修改该目录下的文件│ ├── draft.md //默认的草稿模板│ ├── page.md //默认的页面模板│ └── post.md //默认的文章模板├── source //Hexo存放编辑页面的地方，可以使用vim或其他编辑器编辑这里的内容│ ├── 404.html //自定义404页面，可以使用腾讯公益404页面│ ├── Staticfile │ ├── _drafts //存放所有的草稿文件的目录│ ├── _posts //存放所有的文章文件的目录，用的最多，比如执行hexo n "post_name"之后，post_name这篇文章就存放在这个目录下│ ├── categories└── themes //Hexo的所有主题 ├── landscape //原始hexo主题 ├── next //这是我目前用的主题 0x02 修改步骤在博客的scaffolds目录下有三个md文档，只需要改post.md即可。 我的模板 1234567891011121314151617181920212223242526272829303132----title: &#123;&#123; title &#125;&#125; //文章标题date: &#123;&#123; date &#125;&#125; //文章创建时间permalink: //文章显示连接categories: //文章匪类目录tags: [] //文章标签，可多个，用，隔开description: //文章描述image: //自定义的文章摘要图片，只在页面展示，文章内消失copyright: true //增加底部的版权信息（需要配置）-----//首页文章展示缩略图&lt;img src=&quot;https://&quot; alt=&quot;&quot; style=&quot;width:100%&quot; /&gt; 0x00 前言&lt;!-- more --&gt;## 0x01 ## 0x02## 0x03## 0x04&lt;hr /&gt;版权信息 模板图片如下: 0x03 效果展示首页预览 文章详情 版权信息 ##]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[我的大学生活]]></title>
+    <url>%2F2019%2F07%2F01%2F%E6%88%91%E7%9A%84%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB%2F</url>
+    <content type="text"><![CDATA[0x00 前言​ 我大学读的是计算机科学与技术专业，说实话，这个专业真的太大了，囊括了整个计算机的大类，所以学校的课程中，什么都学，什么计算机导论，离散数学，Java，C，C#，数据库，JSP等等，但是教的都是一些基本的皮毛知识，有些连入门都不算，所以要想在某个知识有所突破，基本上都是靠自己去图书馆借书回来学习。 ​ 在大学中，如果按照学习来分类的话，有这么几个人。第一类人——学神，听过这类人特别牛X，不光学习好，年年拿国家励志奖学金，而且还有这种职位，比如学社会主席，某某大赛领队人….；第二类人——学霸，他们是上课认真听讲，课下不用复习，靠前突击复习。期末稳稳优秀，我宿舍就有几个，哈哈哈，我们宿舍在班上也算是男生中的学霸宿舍了；第三类人——学渣，他们是上课玩手机，下课打游戏，吃饭叫外卖，考试靠小抄。 0x01 大一​ 大一小萌新，充满着对大学的憧憬，然后大一也是最惨的，学生会中部长对大一干部喝来喝去，一副官腔样，贼恶心。除了这些大一小萌新还会在志愿者协会参加各种户外和校内的志愿者活动，只为了志愿者证书上的那60小时志愿工时，不过我在大一的时候为了多见见世面，参加了不少志愿活动，大大小小的积累下来有100多个工时。不过最后被我弄丢了╮(╯▽╰)╭然后就是我在大学还参加一个社团叫剪纸协会（非物质文化遗产奥），不过我在里面也是混日子，没有学到多少技能，到是吧脸皮练厚了，哈哈哈。这就样大一结束。 0x02 大二​ 大二，学习上的事就暂且不谈了，都一样，周一周五上课，周六周日放假。不过不同的人大二的生活就开始不一样了。要是说很多人在大一的时候都差不多，一起参加了学生会，社团什么的，到了大二以后，换届的换届，退会的退会，有幸的是，我当上了剪纸协会的副会长，一般一个社会会有4个负责人，1个会长，两个副会长，还有一个理事长。反正都是管事的，每次社团需要举办什么活动，我们几个负责人都要讨论一下活动的举办等等一系列问题，话说，举办活动还是挺有意思的，不过举办活动前后事情也是挺多的。需要外联部去拉赞助，需要组织部写策划案，需要剪纸部和纸艺创作部出作品展览，协调活动现场人员情况等等。就这样，大二我除了每天上课以外，其余的时光都是在协会中度过了，不过我喜欢去图书馆借点书在协会里面看书，一个人安静的看书，还有空调，也是一种享受！皮卡皮卡^v^ 。 ​ 在一次偶然的机遇中，我碰到了学校计算机协会的会长，在于他交流的过程中，他和我讲了一些有关黑客的东西，其中就涉及到了各种技术，什么ip定位（小皮毛），渗透测试、kali Linux等，当时的我是第一次接触到渗透测试这个词，也没有听过kali Linux，只知道有软件测试和Linux系统这么一回事。当我从百度中搜索了有关这些词的信息后，开启了我新世界的大门。为了学习渗透，我在虚拟机中装上了kali Linux，这个过程在我摸索的过程了还是碰到了不少坑的，这里就不说了，装上kali Linux以后，第一个想法就是，我该怎么用，怎么去和电影里面的一样去黑别人的电脑？等等，于是在网上搜索了一些相关的资料和视频，开始学习kali Linux，其中，我研究最多的模块就是内网了，其实实际上就是局域网环境内的攻击，这些我是先拿我宿舍的室友和路由器开的刀，先是研究如何破解WiFi密码，然后破击成功后使用nmap扫描内网存活主机，使用arp欺骗局域网的主机，窃取局域网中用户的数据流量等等（这些其实不懂，就是跟着视频操作一遍，照葫芦画瓢，不懂原理），再去使用nessus扫描主机存在的漏洞，最后利用漏洞攻击系统等等（未成功过。:( ），在无线网破解这部分我曾经还在freebuf上发表一篇文章——如何使用Airgeddon找回WiFi密码 ，这篇文章从技术研究，文章的撰写发布花了我好几天的时间，在写文章的那天弄到3点在写完成，不过最后发表了，很开心。大二就说这么多吧，其他的大三再说。 0x03 大三​ 时间很快，我到了大三，大三上学期不知道怎么回事，课少的可怜，所以我就有更多的时间来研究渗透测试的东西了，这段时间我研究了msf中的木马，具体技术也不是很懂，就是利用命令来生成木马，然后将木马发送给受害者，只要受害者点击了以后，我这边就可以反弹回来一个会话，俗称shell，在这里，我可以查看该用户主机中的所有信息（管理员权限），当初就是将这个给我的一个室友演示的，成功让他上船。然后两个人一起研究渗透测试，免杀，Android马等等，只是当初思维比较局限，不知道web层面的渗透，只知道有日战这么一说，但是具体的也不知道怎么日。。。。 ​ 大三下学期的课与上学期的课形成了鲜明的对比，基本上天天满课，有的时候晚上还要上课，这，让我在渗透测试方面的研究方面的研究时间大大减少，而且我在大三还萌生了考研的想法，所以，学习任务繁重啊。╮(╯▽╰)╭，不过幸运的是，我在大三过了六级，低分飘过，过了三级网络技术，还拿到了国家励志，也算是我的幸运之年了。皮卡皮卡(^__^) 0x04 大四​ 考研，考研失败，经历就不分享了，免得误导小朋友。不过给出建议就是坚持，很多人在考研的后期都奔溃了，时间不够用，没有复习完，考场心态爆（我在考数学的时候心态崩过，然后出去洗把脸换个位置调整过来了），所以，一定要坚持，怎么也得熬到考研结束。说不定，你就成功了。哇咔咔！！！]]></content>
+      <categories>
+        <category>记录生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+</search>
