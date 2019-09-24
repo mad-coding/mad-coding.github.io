@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>基础DOS命令 | madcoding’s blog</title><meta name="description" content="基础DOS命令"><meta name="keywords" content="基础教程,DOS命令"><meta name="author" content="madcoding"><meta name="copyright" content="madcoding"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://www.mad-coding.cn/2019/09/05/基础DOS命令/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="基础DOS命令"><meta name="twitter:description" content="基础DOS命令"><meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1567664708207&amp;di=956aba5c7de7ac8aba527854fbdcc083&amp;imgtype=0&amp;src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F48%2F51%2F593a8186552a0_610.jpg"><meta property="og:type" content="article"><meta property="og:title" content="基础DOS命令"><meta property="og:url" content="https://www.mad-coding.cn/2019/09/05/基础DOS命令/"><meta property="og:site_name" content="madcoding’s blog"><meta property="og:description" content="基础DOS命令"><meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1567664708207&amp;di=956aba5c7de7ac8aba527854fbdcc083&amp;imgtype=0&amp;src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F48%2F51%2F593a8186552a0_610.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="基础Linux命令" href="https://www.mad-coding.cn/2019/09/05/基础Linux命令/"><link rel="next" title="CTF考试用题" href="https://www.mad-coding.cn/2019/09/05/CTF考试用题/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4f375d7c7c0acbaae6032e476c824100";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://www.mad-coding.cn/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-常用命令归纳"><span class="toc-text">0x01 常用命令归纳</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-dir"><span class="toc-text">1.1 dir</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-md"><span class="toc-text">1.2 md</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-cd"><span class="toc-text">1.3 cd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-rd"><span class="toc-text">1.4 rd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-copy"><span class="toc-text">1.5 copy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-del"><span class="toc-text">1.6 del</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-ren"><span class="toc-text">1.7 ren</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-8-type"><span class="toc-text">1.8 type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-9-format"><span class="toc-text">1.9 format</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-10-discopy"><span class="toc-text">1.10 discopy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-11-deltree"><span class="toc-text">1.11 deltree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-12-mem"><span class="toc-text">1.12 mem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-13-chkdsk"><span class="toc-text">1.13 chkdsk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-14-sys"><span class="toc-text">1.14 sys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-15-path"><span class="toc-text">1.15 path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-16-edit"><span class="toc-text">1.16 edit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-17-cls"><span class="toc-text">1.17 cls</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-18-time"><span class="toc-text">1.18 time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-19-date"><span class="toc-text">1.19 date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-20-ver"><span class="toc-text">1.20 ver</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-其他命令"><span class="toc-text">0x02 其他命令</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1567664708207&amp;di=956aba5c7de7ac8aba527854fbdcc083&amp;imgtype=0&amp;src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F48%2F51%2F593a8186552a0_610.jpg)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">madcoding’s blog</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">If you want to succeed, just do it.</div></div><hr><div class="menus_item"><a class="site-page" href="/ "><i class="fa-fw fa fa-home"></i><span> 首页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-calendar"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 类别</span></a><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-file-image-o"></i><span> 相册</span></a><a class="site-page" href="/pan/"><i class="fa-fw fa fa-hdd-o"></i><span> 资源</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a><a class="site-page" href="/留言板/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">基础DOS命令</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-09-05<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-09-05</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Windows/">Windows</a></span><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2.3k</span><span class="post-meta__separator">|</span><span>阅读时长≈: 7 分钟</span><span class="post-meta__separator">|</span><span>℃: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>在进行渗透测试的过程中，不免会用到DOS系统下的一些命令，所以这篇文章将常用的DOS命令进行整理归纳，方便他人学习和自己查看。</p>
+<a id="more"></a>
+
+<h1 id="0x01-常用命令归纳"><a href="#0x01-常用命令归纳" class="headerlink" title="0x01 常用命令归纳"></a>0x01 常用命令归纳</h1><h2 id="1-1-dir"><a href="#1-1-dir" class="headerlink" title="1.1 dir"></a>1.1 dir</h2><p>dir是英文单词directory(目录）的缩写，主要用来显示一个目录下的文件和子目录。 </p>
+<blockquote>
+<p>[功能] 显示指定磁盘、目录中的文件和子目录信息，包括文件及子目录所在磁盘的卷标、文件与子目录的名称、每个文件的大小、文件及目录建立的日期时间，以及文件子目录的个数、所占用总字节数以及磁盘上的剩余总空间等信息。 </p>
+</blockquote>
+<blockquote>
+<p>[格式] dir [C:][path][filename][.ext][/o][/s][/p][/w][/a] </p>
+</blockquote>
+<blockquote>
+<p>[说明] dir是DOS命令中最常用的一个。斜杠表示后面的内容是参数。DOS参数最常用的是以下四个：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">参 数 意 义 :</span><br><span class="line">/p </span><br><span class="line">显示信息满一屏时，暂停显示，按任意键后显示下一屏 </span><br><span class="line"></span><br><span class="line">/o </span><br><span class="line">排序显示。o后面可以接不同意义的字母 </span><br><span class="line"></span><br><span class="line">/w </span><br><span class="line">只显示文件名目录名，每行五个文件名。即宽行显示 </span><br><span class="line"></span><br><span class="line">/s </span><br><span class="line">将目录及子目录的全部目录文件都显示 </span><br><span class="line">/a </span><br><span class="line">显示隐藏文件</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[举例] 显示C:\WINDOWS\Desktop文件夹里面的信息 </p>
+</blockquote>
+<h2 id="1-2-md"><a href="#1-2-md" class="headerlink" title="1.2 md"></a>1.2 md</h2><p>md是英文make directory（创建目录）的缩写 </p>
+<blockquote>
+<p>[功能] 创建一个子目录 </p>
+</blockquote>
+<blockquote>
+<p>[格式] md [C:]path </p>
+</blockquote>
+<blockquote>
+<p>[举例] 用md 建立一个叫做purple的目录 </p>
+</blockquote>
+<h2 id="1-3-cd"><a href="#1-3-cd" class="headerlink" title="1.3 cd"></a>1.3 cd</h2><p>cd是英文change directory(改变目录）的缩写 </p>
+<blockquote>
+<p>[功能] 改变或显示当前目录 </p>
+</blockquote>
+<blockquote>
+<p>[格式] cd [C:][path] </p>
+</blockquote>
+<blockquote>
+<p>[说明] 路径可以使用绝对路径和相对路径两种。如果只有cd而没有参数，则只显示当前路径。注意：子目录中一定有两个“特殊目录”，即“.”“..”，其中一点表示当前目录，两点表示上一层目录。从简单实用的角度来看，我们只要学会逐层进入（cd 下一层某目录名），和逐层退出（cd..）就可以解决所有问题。当然也可以用绝对路径的办法。 </p>
+</blockquote>
+<blockquote>
+<p>[举例] 进入我们刚才建立的purple目录 </p>
+</blockquote>
+<h2 id="1-4-rd"><a href="#1-4-rd" class="headerlink" title="1.4 rd"></a>1.4 rd</h2><p>remove directory–删除目录 </p>
+<blockquote>
+<p>[功能] 删除空子目录 </p>
+</blockquote>
+<blockquote>
+<p>[格式] rd [d:]path </p>
+</blockquote>
+<blockquote>
+<p>[说明] rd是专门删除空子目录的命令。注意两条：一是不能删除非空目录；二是不能删除当前目录。 </p>
+</blockquote>
+<blockquote>
+<p>[举例] 用rd删除purple这个目录 </p>
+</blockquote>
+<p>下面我们来运用md, cd, rd这三个命令。 </p>
+<h2 id="1-5-copy"><a href="#1-5-copy" class="headerlink" title="1.5 copy"></a>1.5 copy</h2><p>copy在英文中是复制的意思 </p>
+<blockquote>
+<p>[功能] 复制一个或一组文件到指定的磁盘或目录中 </p>
+</blockquote>
+<blockquote>
+<p>[格式] copy [C:][path][filename.ext] [C:][path]filename.ext </p>
+</blockquote>
+<blockquote>
+<p>[说明] 复制文件命令基本用法是：“复制 源文件名 目标文件名”。如果只写目标路径而不写目标文件名，表示同名复制；否则称为换名复制。注意换名复制一般不要更改文件扩展名。 </p>
+</blockquote>
+<blockquote>
+<p>[举例] 将C:\purple目录的所有文件复制到软盘，可以打如下命令，请注意当前盘与当前路径不同： </p>
+</blockquote>
+<p>C:&gt;copy purple A:\ </p>
+<p>如果目标盘上已有同名文件，会出现如下提示，“Overwrite xxxx(Yes/No/All)”此时回答Y则覆盖当前文件，N则保留，A则覆盖此后的所有文件而不再提问。 </p>
+<h2 id="1-6-del"><a href="#1-6-del" class="headerlink" title="1.6 del"></a>1.6 del</h2><p>del是英文delete（删除）的缩写 </p>
+<blockquote>
+<p>[功能] 删除指定磁盘、目录中的一个或一组文件 </p>
+</blockquote>
+<blockquote>
+<p>[格式] del [C:][path]filename.ext </p>
+</blockquote>
+<blockquote>
+<p>[说明] 这个命令应小心使用。一旦被删除，将不易恢复。同样可以采用通配符为删除一类文件。当利用<em>.</em>时，为了安全将给出警告，确定方进行删除工作。删除过程如没有信息提示，表示已正确删除。 </p>
+</blockquote>
+<p>注意这个命令不能删除具有只读、隐含、系统属性的文件；如果指定文件不存在，则出现“File not found”的提示；DOS对误删除的文件可以用UNDELETE外部命令恢复；它<strong>只能删文件，不能删目录</strong>。 </p>
+<h2 id="1-7-ren"><a href="#1-7-ren" class="headerlink" title="1.7 ren"></a>1.7 ren</h2><p>ren是英文rename（重新命名）的简写 </p>
+<blockquote>
+<p>[功能] 对指定磁盘、目录中的一个文件或一组文件更改名称 </p>
+</blockquote>
+<blockquote>
+<p>[格式] ren [C:][path]filename1[.ext] filename2[.ext] </p>
+</blockquote>
+<blockquote>
+<p>[说明] 改名操作只限于某个文件某组文件的名称，它不会更改文件所在的目录。 </p>
+</blockquote>
+<p>如果使用了通配符，则对一批文件进行更名。 </p>
+<h2 id="1-8-type"><a href="#1-8-type" class="headerlink" title="1.8 type"></a>1.8 type</h2><blockquote>
+<p>[功能] 在屏幕上显示文本文件内容命令 </p>
+</blockquote>
+<blockquote>
+<p>[格式] type [C:][path]filename.ext </p>
+</blockquote>
+<blockquote>
+<p>[说明] type命令用来在屏幕上快速、简便地显示文本文件的内容，扩展名为TXT的文件是文本文件。 </p>
+</blockquote>
+<p>如果用这个命令显示扩展名为EXE或COM等其它文件， 输出的结果往往是一些乱七八糟的符号并伴有无规则的响铃声，有时甚至会出现死机现象。 </p>
+<h2 id="1-9-format"><a href="#1-9-format" class="headerlink" title="1.9 format"></a>1.9 format</h2><blockquote>
+<p>[功能] 磁盘格式化 </p>
+</blockquote>
+<blockquote>
+<p>[格式] [C:][path]format drive:[/S] </p>
+</blockquote>
+<blockquote>
+<p>[说明] 厂家制造的各种磁盘可用来存储各种操作系统下的文件。不同操作系统的磁盘格式一般是不相同的，是不通用的。format命令就是使一个新的磁盘可以被DOS操作系统识别，即可存储DOS文件。 </p>
+</blockquote>
+<p>这个命令对磁盘的格式化过程，实际上是用DOS规定的信息存储格式对磁盘进行规划的过程。格式化磁盘时，要清除磁盘上已经存在的所有数据，在磁盘上写上引导记录，划分出文件分配表和根目录，同时，它还要找出磁盘上的所有坏扇区并作上不可使用的标记。命令参数我们这里只列出了一个：/S。当使用了这个参数后，磁盘格式化并装入操作系统文件，使之变成引导盘。相当于format后再进行下一命令：SYS。 </p>
+<h2 id="1-10-discopy"><a href="#1-10-discopy" class="headerlink" title="1.10 discopy"></a>1.10 discopy</h2><p>diskcopy，翻译成中文就是磁盘复制 </p>
+<blockquote>
+<p>[功能] 复制出一个和原来磁盘内容一模一样的磁盘 </p>
+</blockquote>
+<blockquote>
+<p>[格式] diskcopy　源驱动器名　目的驱动器名 </p>
+</blockquote>
+<blockquote>
+<p>[说明] 它的主要用途就是用来备份。比如我们的电脑在刚买来时，会随机附带一些设备驱动程序磁盘，这些驱动程序在以后都有可能用到，为防止这些磁盘的损坏，一定要将它们都备份一套，这时，使用diskcopy命令是比较快捷和方便的。 </p>
+</blockquote>
+<h2 id="1-11-deltree"><a href="#1-11-deltree" class="headerlink" title="1.11 deltree"></a>1.11 deltree</h2><blockquote>
+<p>[功能] 删除目录树 </p>
+</blockquote>
+<blockquote>
+<p>[格式] [C:][path]DELTREE [C1:][path1] [[C2:][path2] […]] </p>
+</blockquote>
+<blockquote>
+<p>[说明] 这个命令将整个指定目录树全部消灭，而不管它是否是只读、隐藏与否。使用应特别小心。它是一个危险命令。 </p>
+</blockquote>
+<h2 id="1-12-mem"><a href="#1-12-mem" class="headerlink" title="1.12 mem"></a>1.12 mem</h2><p>mem是memory的缩写 </p>
+<blockquote>
+<p>[功能] 该命令用来查看你的计算机内存有多少，以及内存的使用情况。 </p>
+</blockquote>
+<blockquote>
+<p>[格式] 直接键入mem命令 </p>
+</blockquote>
+<h2 id="1-13-chkdsk"><a href="#1-13-chkdsk" class="headerlink" title="1.13 chkdsk"></a>1.13 chkdsk</h2><p>chkdsk是check disk的缩写。 </p>
+<blockquote>
+<p>[功能] 用来检查你的磁盘的使用情况。 </p>
+</blockquote>
+<blockquote>
+<p>[格式] chkdsk　磁盘名 </p>
+</blockquote>
+<blockquote>
+<p>[说明] 例如要检查A盘使用情况，就输入chkdsk　A: ，检查c盘使用情况，就输入chkdsk　C: ，如果直接输入chkdsk，就检查当前磁盘的使用情况。 </p>
+</blockquote>
+<h2 id="1-14-sys"><a href="#1-14-sys" class="headerlink" title="1.14 sys"></a>1.14 sys</h2><blockquote>
+<p>[功能] 传递系统文件命令。将DOS的两个隐含的系统IO.SYS和MSDOS.SYS传送到目标磁盘的特定位置上，并将COMMAND.COM文件复制过去。完成后，目标盘成为DOS的启动盘。 </p>
+</blockquote>
+<blockquote>
+<p>[格式] [C:][path]SYS [C1:][path] d2: </p>
+</blockquote>
+<blockquote>
+<p>[说明] 由于这几个文件需要复制到特定位置上，所以用COPY命令完成的复制未必能够启动机器。能过SYS命令，DOS可以将目标盘已占据特定位置的文件移动，并将系统文件复制到相应位置上。参数C1ath用来指明系统文件所在目录。如不指明，则缺省为当前盘的当前目录。所以这个命令一般要在源盘的根目录进行。 </p>
+</blockquote>
+<h2 id="1-15-path"><a href="#1-15-path" class="headerlink" title="1.15 path"></a>1.15 path</h2><blockquote>
+<p>[功能] 设定DOS寻找.COM、.EXE、.BAT文件的所在目录 </p>
+</blockquote>
+<blockquote>
+<p>[格式] path=[[drive:]path[;…]]或path </p>
+</blockquote>
+<h2 id="1-16-edit"><a href="#1-16-edit" class="headerlink" title="1.16 edit"></a>1.16 edit</h2><blockquote>
+<p>[功能] edit命令是一个简单的编辑软件，我们经常用它来编辑一些程序和批处理文件。 </p>
+</blockquote>
+<h2 id="1-17-cls"><a href="#1-17-cls" class="headerlink" title="1.17 cls"></a>1.17 cls</h2><blockquote>
+<p>[功能] 清除显示器屏幕上的内容，使DOS提示符到屏幕左上角。 </p>
+</blockquote>
+<blockquote>
+<p>[格式] cls </p>
+</blockquote>
+<h2 id="1-18-time"><a href="#1-18-time" class="headerlink" title="1.18 time"></a>1.18 time</h2><blockquote>
+<p>[功能] 显示和设置DOS的系统时间 </p>
+</blockquote>
+<blockquote>
+<p>[格式] time [hh[:mm[:ss[.cc]]] </p>
+</blockquote>
+<h2 id="1-19-date"><a href="#1-19-date" class="headerlink" title="1.19 date"></a>1.19 date</h2><blockquote>
+<p>[功能] 显示和设置DOS的系统日期 </p>
+</blockquote>
+<blockquote>
+<p>[格式] date [MM-DD-YY] </p>
+</blockquote>
+<p><img alt data-src="https://raw.githubusercontent.com/mad-coding/PictureBed/master/img/20190905113441.png" class="lozad"></p>
+<h2 id="1-20-ver"><a href="#1-20-ver" class="headerlink" title="1.20 ver"></a>1.20 ver</h2><blockquote>
+<p>[功能] 显示正在运行的DOS系统版本号 </p>
+</blockquote>
+<blockquote>
+<p>[格式] ver </p>
+</blockquote>
+<p><img alt data-src="https://raw.githubusercontent.com/mad-coding/PictureBed/master/img/20190905113506.png" class="lozad"></p>
+<h1 id="0x02-其他命令"><a href="#0x02-其他命令" class="headerlink" title="0x02 其他命令"></a>0x02 其他命令</h1><p>attrib…………设置文件属性<br>ctty …………改变控制设备<br>defrag…………磁盘碎片整理<br>doskey…………调用和建立DOS宏命令<br>debug …………程序调试命令<br>emm386…………扩展内存管理<br>fc　　…………文件比较<br>fdisk …………硬盘分区<br>lh/loadhigh …将程序装入高端内存<br>move …………移动文件，改目录名<br>more　…………分屏显示<br>prompt…………设置提示符<br>set 　…………设置环境变量<br>smartdrv………设置磁盘加速器<br>setver…………设置版本<br>subst …………路径替换<br>vol　 …………显示指定的磁盘卷标号<br>xcopy …………拷贝目录和文</p>
+<hr></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">madcoding</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.mad-coding.cn/2019/09/05/基础DOS命令/">https://www.mad-coding.cn/2019/09/05/基础DOS命令/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.mad-coding.cn">madcoding’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/基础教程/">基础教程    </a><a class="post-meta__tags" href="/tags/DOS命令/">DOS命令    </a></div><div class="post_share"><div class="social-share" data-image="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1567664708207&amp;di=956aba5c7de7ac8aba527854fbdcc083&amp;imgtype=0&amp;src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F48%2F51%2F593a8186552a0_610.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2019/09/05/基础Linux命令/"><img class="prev_cover lozad" data-src="https://raw.githubusercontent.com/mad-coding/PictureBed/master/img/20190905113840.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>基础Linux命令</span></div></a></div><div class="next-post pull-right"><a href="/2019/09/05/CTF考试用题/"><img class="next_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>CTF考试用题</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'G4KVNWBtXJxgbEwcA9QMJGVo-gzGzoHsz',
+  appKey:'E8XbTUIA04PSPKW9rGpkjYg3',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 By madcoding</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi，welcome to madcoding's <a href="https://www.mad-coding.cn/">blog</a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/state/outPortal/loginPortal.action"><span>皖ICP备17023740号</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x00-前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">0x00 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x01-常用命令归纳"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">0x01 常用命令归纳</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-1-dir"><span class="toc_mobile_items-number">2.1.</span> <span class="toc_mobile_items-text">1.1 dir</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-2-md"><span class="toc_mobile_items-number">2.2.</span> <span class="toc_mobile_items-text">1.2 md</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-3-cd"><span class="toc_mobile_items-number">2.3.</span> <span class="toc_mobile_items-text">1.3 cd</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-4-rd"><span class="toc_mobile_items-number">2.4.</span> <span class="toc_mobile_items-text">1.4 rd</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-5-copy"><span class="toc_mobile_items-number">2.5.</span> <span class="toc_mobile_items-text">1.5 copy</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-6-del"><span class="toc_mobile_items-number">2.6.</span> <span class="toc_mobile_items-text">1.6 del</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-7-ren"><span class="toc_mobile_items-number">2.7.</span> <span class="toc_mobile_items-text">1.7 ren</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-8-type"><span class="toc_mobile_items-number">2.8.</span> <span class="toc_mobile_items-text">1.8 type</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-9-format"><span class="toc_mobile_items-number">2.9.</span> <span class="toc_mobile_items-text">1.9 format</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-10-discopy"><span class="toc_mobile_items-number">2.10.</span> <span class="toc_mobile_items-text">1.10 discopy</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-11-deltree"><span class="toc_mobile_items-number">2.11.</span> <span class="toc_mobile_items-text">1.11 deltree</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-12-mem"><span class="toc_mobile_items-number">2.12.</span> <span class="toc_mobile_items-text">1.12 mem</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-13-chkdsk"><span class="toc_mobile_items-number">2.13.</span> <span class="toc_mobile_items-text">1.13 chkdsk</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-14-sys"><span class="toc_mobile_items-number">2.14.</span> <span class="toc_mobile_items-text">1.14 sys</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-15-path"><span class="toc_mobile_items-number">2.15.</span> <span class="toc_mobile_items-text">1.15 path</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-16-edit"><span class="toc_mobile_items-number">2.16.</span> <span class="toc_mobile_items-text">1.16 edit</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-17-cls"><span class="toc_mobile_items-number">2.17.</span> <span class="toc_mobile_items-text">1.17 cls</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-18-time"><span class="toc_mobile_items-number">2.18.</span> <span class="toc_mobile_items-text">1.18 time</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-19-date"><span class="toc_mobile_items-number">2.19.</span> <span class="toc_mobile_items-text">1.19 date</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#1-20-ver"><span class="toc_mobile_items-number">2.20.</span> <span class="toc_mobile_items-text">1.20 ver</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x02-其他命令"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">0x02 其他命令</span></a></li></ol></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zindex="-1" data-click="false"></script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
