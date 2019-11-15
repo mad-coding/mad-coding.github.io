@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>黑客心理学--社会工程学原理 | madcoding’s blog</title><meta name="description" content="黑客心理学--社会工程学原理"><meta name="keywords" content="社工"><meta name="author" content="madcoding"><meta name="copyright" content="madcoding"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://www.mad-coding.cn/2019/11/13/黑客心理学/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="黑客心理学--社会工程学原理"><meta name="twitter:description" content="黑客心理学--社会工程学原理"><meta name="twitter:image" content="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113144131.png"><meta property="og:type" content="article"><meta property="og:title" content="黑客心理学--社会工程学原理"><meta property="og:url" content="https://www.mad-coding.cn/2019/11/13/黑客心理学/"><meta property="og:site_name" content="madcoding’s blog"><meta property="og:description" content="黑客心理学--社会工程学原理"><meta property="og:image" content="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113144131.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="hackthebox初探之获取邀请码" href="https://www.mad-coding.cn/2019/11/11/hackthebox初探之获取邀请码/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4f375d7c7c0acbaae6032e476c824100";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://www.mad-coding.cn/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-大会前奏"><span class="toc-text">0x01 大会前奏</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-大会正文"><span class="toc-text">0x02 大会正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1《黑客心理学》的背景"><span class="toc-text">2.1《黑客心理学》的背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-黑客的动机、着眼点、机会"><span class="toc-text">2.2 黑客的动机、着眼点、机会</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-与安全密切相关的心理因素"><span class="toc-text">2.3 与安全密切相关的心理因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-黑客攻击行为的分类"><span class="toc-text">2.4 黑客攻击行为的分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-黑客攻击行为的本能说"><span class="toc-text">2.5 黑客攻击行为的本能说</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-黑客攻击行为的非本能说"><span class="toc-text">2.6 黑客攻击行为的非本能说</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-黑客攻击意愿的弱化"><span class="toc-text">2.7 黑客攻击意愿的弱化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8-社工黑客攻击的特点"><span class="toc-text">2.8 社工黑客攻击的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-9-社工黑客如何看待个体"><span class="toc-text">2.9 社工黑客如何看待个体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-10-社工黑客攻击人的思路"><span class="toc-text">2.10 社工黑客攻击人的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-11-社工黑客攻击群体的思路"><span class="toc-text">2.11 社工黑客攻击群体的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-12-社工黑客攻击群体的便利"><span class="toc-text">2.12 社工黑客攻击群体的便利</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-13-社工黑客的漏洞思维"><span class="toc-text">2.13 社工黑客的漏洞思维</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-14-社工黑客的战术清单"><span class="toc-text">2.14 社工黑客的战术清单</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-总结"><span class="toc-text">0x03  总结</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113144131.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">madcoding’s blog</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">If you want to succeed, just do it.</div></div><hr><div class="menus_item"><a class="site-page" href="/ "><i class="fa-fw fa fa-home"></i><span> 首页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-calendar"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 类别</span></a><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-file-image-o"></i><span> 相册</span></a><a class="site-page" href="/pan/"><i class="fa-fw fa fa-hdd-o"></i><span> 资源</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a><a class="site-page" href="/留言板/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">黑客心理学--社会工程学原理</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-11-13<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-11-13</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/社会工程/">社会工程</a></span><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">4.8k</span><span class="post-meta__separator">|</span><span>阅读时长≈: 13 分钟</span><span class="post-meta__separator">|</span><span>℃: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>该文章整理自第七届互联网安全大会，杨义先教授的PPT内容。杨义先-北京邮电大学信息安全中心主任。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113145011.png" class="lozad"></p>
+<h1 id="0x01-大会前奏"><a href="#0x01-大会前奏" class="headerlink" title="0x01 大会前奏"></a>0x01 大会前奏</h1><p>大会刚开始，杨教授推荐了几本书</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113145347.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113145414.png" class="lozad"></p>
+<p>补天系列丛书”的体系<br>《安全简史》 ：风趣幽默的安全科普；增强全民对抗黑客攻击，整体全面提<br>高网络安全强度。外行不觉深，内行不觉浅<br>《博弈系统论》（待出版） ：黑客行为预测与管理<br>《安全通论》： 在理工科范围内（不含心理学、社会学、经济学、管理学<br>等），几乎没有任何限制（如设备、环境和人员等）的前提下，揭示黑客攻防<br>和安全演化的基本规律。这些规律可以适用于网络空间安全的各主要分支<br>《黑客心理学》： 1）填补全球信息安全界的一个重大空白，努力实现人、<br>网、环境“闭环系统”全方位安全。2）提高全民的防骗、防黑客意识和水平。</p>
+<blockquote>
+<p>《黑客心理学》小结<br>攻城为下，攻心为上；<br>攻网为下，攻人为上。<br>如何攻城，假假真真；<br>如何攻人，社会工程。</p>
+</blockquote>
+<p>因此，本书的副标题叫“社会工程学原理”，即，从原理层次，穷尽所有可能的社工手段。</p>
+<h1 id="0x02-大会正文"><a href="#0x02-大会正文" class="headerlink" title="0x02 大会正文"></a>0x02 大会正文</h1><h2 id="2-1《黑客心理学》的背景"><a href="#2-1《黑客心理学》的背景" class="headerlink" title="2.1《黑客心理学》的背景"></a>2.1《黑客心理学》的背景</h2><ol>
+<li>所有信息安全问题，全都归罪于人！具体地说，归罪于三类人：破坏者（黑客）、保卫者（红客）和使用者（用户）。</li>
+<li>但全球信息安全界，几乎都聚焦于网络或环境安全，而忽略了一个最关键的事实：黑客是人</li>
+<li>反而是黑客们，常常基于心理学成果，利用“社会工程学”（简<br>称“社工”），来攻击“人”；并以此为突破口，结合各种技术<br>和非技术手段，把用户和红客打得落花流水</li>
+<li>“人”只不过是木偶，而人的“心理”才是拉动木偶的那根线；<br>或者说，“人”只不过是“魄”，而“心理”才是“魂</li>
+<li>所以，网络空间安全的根本核心，其实隐藏在人的心里。因此，《黑客心理学》希望借助心理学、社会学，来揭示信息安全的人心奥秘！</li>
+<li>《黑客心理学》希望穷尽所有社工攻击的基本“元素”，即，所<br>有无数种社工攻击方法，都只是这些有限个“元素”的某种融合<br>而已。就像门捷列夫元素周期表中有限（数百）种元素，就能组成宇宙中无数种物质一样；实际上，社工攻击“元素”也只有数百种，被黑客常用的就更少了。</li>
+<li>在人、网、环境的闭环系统中，后两者“没天敌”，只需不断<br>“水涨船高”就行；但是，人是有天敌的，人性的弱点有许多共<br>同处，很难“打补丁”</li>
+<li>总之，赢人者，赢天下；胜人者，胜世界！</li>
+<li>由于“三种人”的目标、地位和能力等各不相同，所以，在网络<br>空间安全攻防过程中，他们的心理因素也会不同。《黑客心理学》将重点探索最具网络特色的黑客心理，因为，若无黑客，几乎就没有安全问题。但遗憾的是，黑客过去存在，现在存在，今后也将永远存在；甚至还可能越来越多</li>
+</ol>
+<h2 id="2-2-黑客的动机、着眼点、机会"><a href="#2-2-黑客的动机、着眼点、机会" class="headerlink" title="2.2 黑客的动机、着眼点、机会"></a>2.2 黑客的动机、着眼点、机会</h2><ol>
+<li><p>从心理学角度看，黑客行为的动机，主要基于如下几种心理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">自我表现心理、好奇探秘心理、义愤抗议心理、戏谑心理、非法占有心理、渴望认同心理、自我解嘲心理、发泄心理等</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反过来，黑客发动攻击时，又利用了被害者的哪些心理呢？归纳起来，至少有如下几种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">恐惧心理、服从心理、贪婪心理、同情心理</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引发红客和用户不安全的心理因素，主要有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">省能心理、侥幸心理、逆反心理、凑兴心理、群体心理、注意与不注意</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="2-3-与安全密切相关的心理因素"><a href="#2-3-与安全密切相关的心理因素" class="headerlink" title="2.3 与安全密切相关的心理因素"></a>2.3 与安全密切相关的心理因素</h2><ol>
+<li><p>性格与安全：下面8种性格，不利于安全：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">攻击型性格。</span><br><span class="line">性情孤僻、固执、心胸狭窄。</span><br><span class="line">性情不稳定，易受情绪感染支配，易于冲动，情绪伏波动很大，受情绪影响长时间不易平静</span><br><span class="line">心境抑郁，浮躁不安者</span><br><span class="line">马虎、敷衍、粗心</span><br><span class="line">危急关头，惊慌失措、优柔寡断、鲁莽行事</span><br><span class="line">感知、思维、运动迟钝、不爱活动、懒惰者</span><br><span class="line">懦弱、胆怯、没主见者。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>能力与安全：<br>只有当能力与任务难度匹配时，才不容易出现安全问题。思维能力强的人，在面对重复的、一成不变的、不需动脑筋的简单操作时，就会感到单调乏味；从而埋下安全隐患。反之，能力较低的人，在面对力所不及的任务时，就会感受到无法胜任，甚至会过度紧张；从而，也容易引发安全问题。</p>
+</li>
+<li><p>情绪、情感与安全：<br>积极情绪，可加深安全重要性认识，具有“增力作用”，能激发安全动机，采取积极态度。而消极情绪，会使人带着厌恶的情感去看待安全，具有“减力作用”，采取消极的态度，从而容易引发不安全行为。</p>
+</li>
+<li><p>意志与安全：<br>意志对安全行为，起着重要的调节作用，主要是：合理控制情绪，克服不利于安全的心理障碍，并调动有利于安全的心理因素，坚持不懈地实现安全目标。</p>
+</li>
+<li><p>感知觉与安全：<br>安全预防的水平，首先取决于对风险的认识水平；对风险认识越深刻，出现问题的可能性就越小</p>
+</li>
+<li><p>个性心理与安全：<br>不良的个性心理特征，常是引发安全问题的直接原因。比如，有的认真负责，有的马虎敷衍；有的谨慎细心，有的粗心大意。对待前人的安全经验，有的不予盲从，事实求是；有的不敢抵制，违心屈从等</p>
+</li>
+<li><p>气质与安全：<br>有些工作，比如，个性化较强的OA类开发，需要反应迅速、动作敏捷、<br>活泼好动、善于交际的人去承担。有些工作，比如，软件漏洞检测等，<br>则需要仔细的、情绪比较稳定的、安静的人去做。等</p>
+</li>
+<li><p>个性对不安全行为的影响，主要表现在两方面：<br>1），态度的影响。<br>2），动机的影响。</p>
+</li>
+<li><p>行为退化对安全的影响：<br>比如：若劳动时间太长，就会产生疲劳；若生活节律被干扰，就不能有<br>效发挥体能；若失去完成任务的动力，就会懒散懈怠；若缺乏鼓励，就<br>会泄气；若突然面对危险，就会产生应激反应等</p>
+</li>
+<li><p>失误与安全的关系及影响：<br>第1，失误是不可避免的副产物，失误率可以测定。<br>第2，工作环境可以诱发失误；故可通过改善工作环境，来防<br>止失误。<br>第3，下级的失误，也许能反映上级的职责缺陷。<br>第4，人的行为，反映其上级的态度；比如仅凭直觉去解决安<br>全问题，或仅靠侥幸来维护安全，那迟早会出问题。<br>第5，过时的惯例，可能促发失误。<br>第6，不安全行为，是操作员促发的、直接导致危害的失误，<br>属于失误的特例。级别越高的人，其失误的后果就越严重。</p>
+</li>
+</ol>
+<h2 id="2-4-黑客攻击行为的分类"><a href="#2-4-黑客攻击行为的分类" class="headerlink" title="2.4 黑客攻击行为的分类"></a>2.4 黑客攻击行为的分类</h2><ol>
+<li>网络黑客攻击是指，违背他人意愿，采取信息手段等非身体接触方式，以伤害他人（的财产或心灵）为目标的行为。</li>
+<li>无论攻击行为是发生在网上或网下，黑客行为的最终效果都主要体现在网络空间中</li>
+<li>按攻击目的划分，黑客行为可大致归为四类：<ol>
+<li>观点表达型</li>
+<li>情绪宣泄型</li>
+<li>利益诉求型</li>
+<li>网络犯罪型</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-5-黑客攻击行为的本能说"><a href="#2-5-黑客攻击行为的本能说" class="headerlink" title="2.5 黑客攻击行为的本能说"></a>2.5 黑客攻击行为的本能说</h2><ol>
+<li>本能说认为：攻击行为是由基因设定的，与遗传相关，它是人类为确保自身安全而形成的一种本能；这种本能经长期进化而来，攻击性强的个体，往往更具生存优势，</li>
+<li>因此，按照本能说<ol>
+<li>黑客攻击是不可避免的</li>
+<li>对攻击行为可定期加以发泄；以无破坏性发泄方式，代替破坏性发泄方式。</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-6-黑客攻击行为的非本能说"><a href="#2-6-黑客攻击行为的非本能说" class="headerlink" title="2.6 黑客攻击行为的非本能说"></a>2.6 黑客攻击行为的非本能说</h2><ol>
+<li><p>非本能说之“挫折理论”认为：</p>
+<ol>
+<li>攻击来源于挫折</li>
+</ol>
+</li>
+<li><p>挫折理论对网络安全的启发至少有：</p>
+<ol>
+<li>无论如何，都不要在网络中激发不必要的矛盾，更不要使任何人遭受不必要的挫折，这样便可大幅度地减少黑客的攻击行为。</li>
+<li>看来，构建和谐的网络社会，对信息安全也是很有利的嘛。</li>
+</ol>
+</li>
+<li><p>非本能说之“社会学习理论”认为：</p>
+<ol>
+<li>人并不是生来就具有攻击能力的，这种能力必须通过学习才能获得。这种学习，是通过观察榜样的行为及其后果来实现的，故又称为观察学习。</li>
+<li>观察了他人的攻击行为及其后果后，人便会形成攻击的观念，并以此指导自己的攻击行为。</li>
+<li>所以，黑客的攻击行为，具有一定的传染性。</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-7-黑客攻击意愿的弱化"><a href="#2-7-黑客攻击意愿的弱化" class="headerlink" title="2.7 黑客攻击意愿的弱化"></a>2.7 黑客攻击意愿的弱化</h2><ol>
+<li>无害宣泄；<br>习得的抑制，即，指人们在社会生活中所学到的，对攻击行为的控制；主要指<ol>
+<li>社会规范的抑制</li>
+<li>痛苦线索的抑制（想象被害者的惨状）</li>
+<li>对报复的畏惧等三点。</li>
+</ol>
+</li>
+<li>置换与替罪羊：当某人遭受挫折，但他又对施害者无可奈何时，就会通过别的方式满足自己的需求；<ol>
+<li>方式之一，便是置换对象，攻击那些与施害者相似的对象</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-8-社工黑客攻击的特点"><a href="#2-8-社工黑客攻击的特点" class="headerlink" title="2.8 社工黑客攻击的特点"></a>2.8 社工黑客攻击的特点</h2><ol>
+<li><p>攻击的直接对象是热血的“人” ，而不是冷血的“设备”，虽然<br>可以运用各种设备来当武器。</p>
+</li>
+<li><p>是一种赛博式攻击，即，常常是需要与被攻击者之间进行多次信息互动，逐步诱导</p>
+</li>
+<li><p>黑客与被攻击的“人”之间，并无直接的身体接触；所以，社工<br>攻击的武器其实只是“信息”，攻击成果的表现形式也是“信息”</p>
+</li>
+<li><p>社工攻击，正在成为黑客攻击的必备手段；甚至，在所有重大黑客事件中，社工攻击几乎都是先锋队的主力军。</p>
+</li>
+<li><p>社工攻击的另一突出特点是：若你不了解它，那它将威力无穷；若你知道它正在攻击你，那你一定会逢凶化吉。比如，当你知道正在接听的某个电话，是诈骗电话时；就算骗子再高明，你也不会上当，甚至还可以随心所欲地戏弄他一番。</p>
+</li>
+<li><p>综合社工攻击的上述特点，请问：</p>
+<ol>
+<li>还有必要假装高雅，而对“社工攻击”不屑一顾吗？<br>还能假装强大，而视“社工攻击”为无物吗？</li>
+</ol>
+</li>
+<li><p>若仅停留在外观，那“社工攻击”手段无穷无尽。就像站在分子<br>层次，人类将永远无法知道“到底有多少种物质”一样；但若深<br>入到人性的底层本质，便可穷尽组成所有无数种社工攻击的少数几个“元素”</p>
+</li>
+</ol>
+<h2 id="2-9-社工黑客如何看待个体"><a href="#2-9-社工黑客如何看待个体" class="headerlink" title="2.9 社工黑客如何看待个体"></a>2.9 社工黑客如何看待个体</h2><ol>
+<li><p>回顾历史的有趣循环：当年，在心理学重大成果（发现了“反馈<br>+微调+迭代”赛博链）的启发下，人类造“电脑”，当时的模<br>特儿是“人脑”；然后，又造了电脑网络；</p>
+</li>
+<li><p>如今，社工黑客在攻击“人脑”时，又是采用“反馈+微调+迭<br>代”的赛博攻击链，又是拿“电脑”当模特儿</p>
+</li>
+<li><p>社工将人看“电脑”，由四部分组成：<br>1）输入：包括外部输入（即，感觉等）、内部反馈输入（即，<br>知觉、动机、情绪和情感等）、噪音输入（即，无意识等）；<br>2）输出：信息输出（即，语言等）、行为输出、内部反馈输<br>出（即，动机、知觉、情绪和情感等）、噪音输出（即，无<br>意识等）<br>3）存储：包括记忆、习惯、无意识等；<br>4）处理：包括计算（即，思维、认知）、去噪（即，注意<br>等）、优化（即，学习、发展）</p>
+</li>
+</ol>
+<h2 id="2-10-社工黑客攻击人的思路"><a href="#2-10-社工黑客攻击人的思路" class="headerlink" title="2.10 社工黑客攻击人的思路"></a>2.10 社工黑客攻击人的思路</h2><ol>
+<li>欲攻破人这个“热血电脑”，就必须使其信息失控；</li>
+<li>欲使信息失控，只需攻破输入、输出、存储或处理四大部分中的任何一部分；</li>
+<li>欲攻破任何一部分，就必须充分利用心理学家已揭示的人性弱点；</li>
+<li>欲充分利用这些弱点，就必须：<ol>
+<li>要么使攻击对象在赛博式反馈循环中被诱入歧途，</li>
+<li>要么截获并利用无意识的噪音输出等。</li>
+<li>至于如何达到这些目标，将是《黑客心理学》的任务，欢迎大家详细阅读。</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-11-社工黑客攻击群体的思路"><a href="#2-11-社工黑客攻击群体的思路" class="headerlink" title="2.11 社工黑客攻击群体的思路"></a>2.11 社工黑客攻击群体的思路</h2><ol>
+<li><p>社工黑客只需要从信息的角度去观察“群体”，而没必要像心理<br>学家那样去全面考虑“群体”。</p>
+</li>
+<li><p>如果组成某群体的个体之间，完全隔离，即，群体成员彼此没有任何信息的交往；那么，黑客便可把这种群体，看成一些独立的“热血电脑”的堆集。既可以独立地，分别攻破这些“热血电<br>脑”；又可以找出他们的共同特点，然后“一箭多雕”。</p>
+</li>
+<li><p>其实，绝大部分群体都应该是这样的：群体成员彼此之间，存在着或多或少的信息交流；因此，在社工黑客看来，群体只不过是由“热血电脑”组成的网络而已；</p>
+</li>
+<li><p>总之，在社工黑客眼里，群体的信息交流架构，完全等同于众所周知的、由冷血电脑搭建的互联网的信息交流架构；因此，黑客可借用已经相当熟悉的、攻击冷血网络的思路，来攻击群体这个“热血网络”</p>
+</li>
+<li><p>若非要在群体这个“热血网络”和“冷血网络”中找出什么差别<br>的话；那针对群体这个“热血网络”的活性（即，它会不断演化、生长），社工黑客还有如下更多的、有利的攻击机会：</p>
+</li>
+</ol>
+<h2 id="2-12-社工黑客攻击群体的便利"><a href="#2-12-社工黑客攻击群体的便利" class="headerlink" title="2.12 社工黑客攻击群体的便利"></a>2.12 社工黑客攻击群体的便利</h2><ol>
+<li><p>合群机会<br>1）合群倾向，有助于社工黑客“打入敌人内部”，从而有利<br>于后续攻击；<br>2）充分合群后，群体成员之间会越来越趋同，从而有利于提<br>高攻击效率，甚至：攻破一个成员后，与其相似的成员也将<br>全被攻破；<br>3）充分合群后，群体中信息交流将更密切；</p>
+<pre><code>故篡改、破坏或截获相关信息将更易；
+通过一台“热血电脑”做跳板，去远程攻击另一台“热血脑”也更易；
+黑客隐身也更简单</code></pre></li>
+<li><p>遵从和依从的机会<br>人类普遍存在遵从和服从现象，特别是当来自群体的压力很<br>大，比如，群体中每个人都做出同样的反应时，个人就会有<br>强烈的动机去赞同群体其他成员的意见。</p>
+</li>
+<li><p>充分利用该机会，黑客便能对“热血网络”发动非常有效的攻击，</p>
+<p>比如：将被攻击目标（个体或者小群体）纳入事先伪造好的<br>某个大群体，然后通过操控这个“假冒群体”，来达到操控受害者的目的</p>
+</li>
+<li><p>“热血网络”的单核心信息传输模式</p>
+<ol>
+<li>无论在什么环境下，几乎所有群体，都有一个共同特征，即，群体中总有某些人（意见领袖）说得很多，而其他人则说得很少。</li>
+<li>“热血网络”的信息传输拓扑结构，远比真实互联网这些冷血网络的拓扑结构还要简单明晰；因为它只有一个信息交流的主节点，而其它节点的信息交流量都很少。</li>
+<li>这种单核心结构，对社工黑客显然是有利的。</li>
+</ol>
+</li>
+<li><p>“热血网络”的双核心信息交流结构</p>
+<ol>
+<li>有时群体中会出现两个核心：其一，是意见领袖，他说话最多；其二，是领导，他说话最管用。他们都是社工黑客的重点关注对象。</li>
+<li>通过说话量，社工黑客可准确判断群体的意见领袖；这相当于找到冷血网络中的骨干路由器节点，从而有利于准确找到其攻击目标，因为现实中经常是“领导的话普遍偏多”，而且，即使信息交流受到限制，交流受限最少的人，往往也是领导。</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-13-社工黑客的漏洞思维"><a href="#2-13-社工黑客的漏洞思维" class="headerlink" title="2.13 社工黑客的漏洞思维"></a>2.13 社工黑客的漏洞思维</h2><ol>
+<li>在冷血网络的信息安全对抗中，黑客和红客的主要战场，可能要算“漏洞挖掘”了</li>
+<li>既然社工黑客将人类个体看成“热血电脑”，将人类群体看成<br>“热血网络”；所以，挖掘相应的人性漏洞，也是红黑双方信息<br>安全对抗的核心战场</li>
+<li>与冷血网络不同的是，许多热血漏洞，根本无法“打补丁”，因<br>为，某些漏洞干脆就是人的本能或潜意识习惯</li>
+<li>从漏洞角度看，社工黑客比纯技术黑客处于更有利的地位；换句话说，我们更应该重视如何对抗社工黑客。</li>
+<li>幸好，社工黑客的攻击，几乎都是循环反馈的“赛博式”攻击，<br>所以，只要在其攻击过程中的任何一个环节，挡住了黑客，就算</li>
+<li>红客成功<ol>
+<li>人性漏洞非常多：</li>
+<li>有输入漏洞</li>
+<li>输出漏洞</li>
+<li>处理漏洞</li>
+<li>存储漏洞等四大类漏洞</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-14-社工黑客的战术清单"><a href="#2-14-社工黑客的战术清单" class="headerlink" title="2.14 社工黑客的战术清单"></a>2.14 社工黑客的战术清单</h2><ol>
+<li>感觉漏洞的挖掘和利用</li>
+<li>知觉漏洞的挖掘和利用</li>
+<li>记忆博弈</li>
+<li>情结博弈</li>
+<li>注意控制</li>
+<li>动机诱惑</li>
+<li>微表情泄密</li>
+<li>肢体语言泄密</li>
+<li>姿势泄密</li>
+<li>喜欢的引发和利用</li>
+<li>利他与易控行为的利用</li>
+<li>态度的控制</li>
+<li>人际关系的利用和控制</li>
+</ol>
+<h1 id="0x03-总结"><a href="#0x03-总结" class="headerlink" title="0x03  总结"></a>0x03  总结</h1><p>个人感觉内容挺充实的，大家有兴趣的可以在去看看他的那本书。本人还没看过，不过有点子版本的，有需要的可以在下方留下联系方式。</p>
+<p><img alt="img" data-src="https://i03piccdn.sogoucdn.com/c33229afd072e890" class="lozad"></p>
+<p>### </p>
+<hr></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">madcoding</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.mad-coding.cn/2019/11/13/黑客心理学/">https://www.mad-coding.cn/2019/11/13/黑客心理学/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.mad-coding.cn">madcoding’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/社工/">社工    </a></div><div class="post_share"><div class="social-share" data-image="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191113144131.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2019/11/11/hackthebox初探之获取邀请码/"><img class="next_cover lozad" data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191111174710.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>hackthebox初探之获取邀请码</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2019/10/16/华为账户信息一览表/" title="华为账户信息一览表"><img class="relatedPosts_cover lozad" data-src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571218502503&di=2a43369847018705b79d6dcf06e1e9ec&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fspider20190522%2F75%2Fw500h375%2F20190522%2F5c8b-hxhyiun1990468.jpg"><div class="relatedPosts_title">华为账户信息一览表</div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'G4KVNWBtXJxgbEwcA9QMJGVo-gzGzoHsz',
+  appKey:'E8XbTUIA04PSPKW9rGpkjYg3',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 By madcoding</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi，welcome to madcoding's <a href="https://www.mad-coding.cn/">blog</a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/state/outPortal/loginPortal.action"><span>皖ICP备17023740号</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x00-前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">0x00 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x01-大会前奏"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">0x01 大会前奏</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x02-大会正文"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">0x02 大会正文</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-1《黑客心理学》的背景"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text">2.1《黑客心理学》的背景</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-2-黑客的动机、着眼点、机会"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text">2.2 黑客的动机、着眼点、机会</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-3-与安全密切相关的心理因素"><span class="toc_mobile_items-number">3.3.</span> <span class="toc_mobile_items-text">2.3 与安全密切相关的心理因素</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-4-黑客攻击行为的分类"><span class="toc_mobile_items-number">3.4.</span> <span class="toc_mobile_items-text">2.4 黑客攻击行为的分类</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-5-黑客攻击行为的本能说"><span class="toc_mobile_items-number">3.5.</span> <span class="toc_mobile_items-text">2.5 黑客攻击行为的本能说</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-6-黑客攻击行为的非本能说"><span class="toc_mobile_items-number">3.6.</span> <span class="toc_mobile_items-text">2.6 黑客攻击行为的非本能说</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-7-黑客攻击意愿的弱化"><span class="toc_mobile_items-number">3.7.</span> <span class="toc_mobile_items-text">2.7 黑客攻击意愿的弱化</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-8-社工黑客攻击的特点"><span class="toc_mobile_items-number">3.8.</span> <span class="toc_mobile_items-text">2.8 社工黑客攻击的特点</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-9-社工黑客如何看待个体"><span class="toc_mobile_items-number">3.9.</span> <span class="toc_mobile_items-text">2.9 社工黑客如何看待个体</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-10-社工黑客攻击人的思路"><span class="toc_mobile_items-number">3.10.</span> <span class="toc_mobile_items-text">2.10 社工黑客攻击人的思路</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-11-社工黑客攻击群体的思路"><span class="toc_mobile_items-number">3.11.</span> <span class="toc_mobile_items-text">2.11 社工黑客攻击群体的思路</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-12-社工黑客攻击群体的便利"><span class="toc_mobile_items-number">3.12.</span> <span class="toc_mobile_items-text">2.12 社工黑客攻击群体的便利</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-13-社工黑客的漏洞思维"><span class="toc_mobile_items-number">3.13.</span> <span class="toc_mobile_items-text">2.13 社工黑客的漏洞思维</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-14-社工黑客的战术清单"><span class="toc_mobile_items-number">3.14.</span> <span class="toc_mobile_items-text">2.14 社工黑客的战术清单</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x03-总结"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text">0x03  总结</span></a></li></ol></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zindex="-1" data-click="false"></script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
