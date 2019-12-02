@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>学习，沉淀，分享，交流 | madcoding’s blog</title><meta name="description" content="If you want to succeed, just do it."><meta name="keywords" content="个人网盘,SCF"><meta name="author" content="madcoding"><meta name="copyright" content="madcoding"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://www.mad-coding.cn/2019/12/02/使用腾讯SCF-onedrive搭建5T个人网盘/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="学习，沉淀，分享，交流"><meta name="twitter:description" content="If you want to succeed, just do it."><meta name="twitter:image" content="https://www.mad-coding.cn/img/avatar.png"><meta property="og:type" content="article"><meta property="og:title" content="学习，沉淀，分享，交流"><meta property="og:url" content="https://www.mad-coding.cn/2019/12/02/使用腾讯SCF-onedrive搭建5T个人网盘/"><meta property="og:site_name" content="madcoding’s blog"><meta property="og:description" content="If you want to succeed, just do it."><meta property="og:image" content="https://www.mad-coding.cn/img/avatar.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="nessus pro破解安装及插件离线跟新" href="https://www.mad-coding.cn/2019/11/27/nessus-pro破解安装及插件离线跟新/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4f375d7c7c0acbaae6032e476c824100";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://www.mad-coding.cn/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-需求准备"><span class="toc-text">0x01 需求准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-申请5T空间"><span class="toc-text">0x02 申请5T空间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-开启搭建之路"><span class="toc-text">0x03 开启搭建之路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-下载-onedrive-SCF源码"><span class="toc-text">3.1 下载 onedrive_SCF源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-注册腾讯云"><span class="toc-text">3.2 注册腾讯云</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-配置云函数"><span class="toc-text">3.3 配置云函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-1-新建云函数"><span class="toc-text">3.3.1 新建云函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-2-上传onedrive-SCF文件夹"><span class="toc-text">3.3.2 上传onedrive_SCF文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-3-添加触发方式"><span class="toc-text">3.3.3 添加触发方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-4-新建密钥"><span class="toc-text">3.3.4 新建密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-5-添加环境变量"><span class="toc-text">3.3.5 添加环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-6-开始安装"><span class="toc-text">3.3.6 开始安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-7-自定义域名设置"><span class="toc-text">3.3.7 自定义域名设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-采坑记录"><span class="toc-text">0x04 采坑记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-创建权限错误"><span class="toc-text">4.1 创建权限错误</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-甩锅"><span class="toc-text">0x05 甩锅</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-参考连接"><span class="toc-text">0x06 参考连接</span></a></li></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/Photo/post.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">madcoding’s blog</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">If you want to succeed, just do it.</div></div><hr><div class="menus_item"><a class="site-page" href="/ "><i class="fa-fw fa fa-home"></i><span> 首页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-calendar"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 类别</span></a><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-file-image-o"></i><span> 相册</span></a><a class="site-page" href="/pan/"><i class="fa-fw fa fa-hdd-o"></i><span> 资源</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a><a class="site-page" href="/留言板/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">无题</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-12-02<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-12-02</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/其他文章/">其他文章</a></span><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1.1k</span><span class="post-meta__separator">|</span><span>阅读时长≈: 3 分钟</span><span class="post-meta__separator">|</span><span>℃: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>前几日在群里看到有人使用腾讯的SCF（云函数）+onedrive来搭建属于自己的个人网盘，对此我颇有兴趣今日就来研究研究，今将研究结果奉上，如有不足之处，还请提出改正，共同进步。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202093328.png" class="lozad"></p>
+<a id="more"></a>
+
+<h1 id="0x01-需求准备"><a href="#0x01-需求准备" class="headerlink" title="0x01 需求准备"></a>0x01 需求准备</h1><ol>
+<li>onedrive账号（推荐教育版5T）</li>
+<li>onedrive_SCF源码</li>
+<li>个人域名</li>
+<li>腾讯云账号</li>
+</ol>
+<h1 id="0x02-申请5T空间"><a href="#0x02-申请5T空间" class="headerlink" title="0x02 申请5T空间"></a>0x02 申请5T空间</h1><p>原理就是使用临时邮箱申请5T空间，之前的那个申请网站由于被人恶意使用短信炸弹轰炸，已经不能收到短信了，所以，今天推荐另一个网站。</p>
+<blockquote>
+<p>ps:个人不保证不会翻车，大家可以用来做自己的备份云盘。</p>
+</blockquote>
+<p>申请5T空间：<a href="http://233455.xyz:3000/" target="_blank" rel="noopener">传送门</a></p>
+<p>申请教程可参考我的另一篇文章：<a href="[https://www.mad-coding.cn/2019/08/09/onedrive-oneindex%E6%89%93%E9%80%A0%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%9B%98/](https://www.mad-coding.cn/2019/08/09/onedrive-oneindex打造属于自己的个人网盘/)">onedrive+oneindex打造属于自己的个人网盘</a></p>
+<h1 id="0x03-开启搭建之路"><a href="#0x03-开启搭建之路" class="headerlink" title="0x03 开启搭建之路"></a>0x03 开启搭建之路</h1><h2 id="3-1-下载-onedrive-SCF源码"><a href="#3-1-下载-onedrive-SCF源码" class="headerlink" title="3.1 下载 onedrive_SCF源码"></a>3.1 下载 onedrive_SCF源码</h2><blockquote>
+<p><a href="https://github.com/Tai7sy/OneDrive_SCF" target="_blank" rel="noopener">https://github.com/Tai7sy/OneDrive_SCF</a></p>
+</blockquote>
+<h2 id="3-2-注册腾讯云"><a href="#3-2-注册腾讯云" class="headerlink" title="3.2 注册腾讯云"></a>3.2 注册腾讯云</h2><blockquote>
+<p><a href="https://cloud.tencent.com/" target="_blank" rel="noopener">https://cloud.tencent.com/</a></p>
+</blockquote>
+<h2 id="3-3-配置云函数"><a href="#3-3-配置云函数" class="headerlink" title="3.3 配置云函数"></a>3.3 配置云函数</h2><h3 id="3-3-1-新建云函数"><a href="#3-3-1-新建云函数" class="headerlink" title="3.3.1 新建云函数"></a>3.3.1 新建云函数</h3><p>登录腾讯云函数平台后，新建一个云函数，地区选择香港或者新加坡地区。创建的云函数名称随便填写，运行的环境选择PHP7.2 ，创建方式选择模板函数；模板选择helloword模板，下一步直接完成。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202095348.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100001.png" class="lozad"></p>
+<p>创建一个新的函数服务，地址选择<code>中国香港</code></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100014.png" class="lozad"></p>
+<p>新建一个<code>helloworld</code>模板函数</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100021.png" class="lozad"></p>
+<p>拉到最下面，点击下一步，然后点击完成</p>
+<h3 id="3-3-2-上传onedrive-SCF文件夹"><a href="#3-3-2-上传onedrive-SCF文件夹" class="headerlink" title="3.3.2 上传onedrive_SCF文件夹"></a>3.3.2 上传onedrive_SCF文件夹</h3><p>从GitHub下载OneDrive_SCF源码，进入函数服务选择函数代码，提交代码选择本地上传文件夹，上传刚才解压的文件夹（注意：如果解压了双层文件夹需要点入第二个文件夹）</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100324.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100422.png" class="lozad"></p>
+<h3 id="3-3-3-添加触发方式"><a href="#3-3-3-添加触发方式" class="headerlink" title="3.3.3 添加触发方式"></a>3.3.3 添加触发方式</h3><p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100428.png" class="lozad"></p>
+<p>选择<code>API网关触发器</code>，勾选<code>启用集成响应</code>，然后点击保存。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202100634.png" class="lozad"></p>
+<p>然后会生成一个访问路径。点击这个路径</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101707.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101712.png" class="lozad"></p>
+<h3 id="3-3-4-新建密钥"><a href="#3-3-4-新建密钥" class="headerlink" title="3.3.4 新建密钥"></a>3.3.4 新建密钥</h3><p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101736.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101746.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101750.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101819.png" class="lozad"></p>
+<p>然后使用微信扫描二维码，获得密钥全部的内容</p>
+<h3 id="3-3-5-添加环境变量"><a href="#3-3-5-添加环境变量" class="headerlink" title="3.3.5 添加环境变量"></a>3.3.5 添加环境变量</h3><p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101909.png" class="lozad"></p>
+<p>将刚刚的新建的秘钥添加到环境变量中。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101913.png" class="lozad"></p>
+<p>添加完成</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101919.png" class="lozad"></p>
+<p>其他的环境变量添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sitename=站点名称</span><br><span class="line">private_path=Onedrive根路径（绑定自定义域名使用）</span><br><span class="line">public_path=Onedrive根路径（未绑定自定义域名使用）</span><br><span class="line">passfile=.password(加密文件)</span><br><span class="line">admin=管理员密码</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-6-开始安装"><a href="#3-3-6-开始安装" class="headerlink" title="3.3.6 开始安装"></a>3.3.6 开始安装</h3><p>再次刷新刚刚的错误页面</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202101950.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102007.png" class="lozad"></p>
+<p>登录OneDrive账号，这里我已经登录过了，直接选择就行了。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102013.png" class="lozad"></p>
+<p>成功登录后自动跳转到云盘</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102058.png" class="lozad"></p>
+<h3 id="3-3-7-自定义域名设置"><a href="#3-3-7-自定义域名设置" class="headerlink" title="3.3.7 自定义域名设置"></a>3.3.7 自定义域名设置</h3><p>点击触发方式，然后点击API服务名</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102115.png" class="lozad"></p>
+<p>选择自定义域名，新建。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102120.png" class="lozad"></p>
+<p>在域名厂商设置域名解析，我域名是在腾讯买的，所以直接到域名解析出添加一个域名解析记录，主机记录就是二级域名，记录类型是CNAME（域名指向域名），记录值填触发方式中的访问路径。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102128.png" class="lozad"></p>
+<p>设置完域名解析后，在到自定义域名除继续设置。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102134.png" class="lozad"></p>
+<blockquote>
+<p>ps:没有证书的话，就选择http协议。</p>
+</blockquote>
+<p>在index.php中的609行左右，添加域名协议的代码</p>
+<script>
+  if (location.protocol === "http:") {
+    location.href = location.href.replace(/http/, "https");
+  }
+</script>
+
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102138.png" class="lozad"></p>
+<p>再次使用域名访问，显示没有uri路径设置有问题。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102156.png" class="lozad"></p>
+<p>重新修改路径</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102203.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102208.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102212.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202102216.png" class="lozad"></p>
+<p>再次使用域名访问</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202103229.png" class="lozad"></p>
+<h1 id="0x04-采坑记录"><a href="#0x04-采坑记录" class="headerlink" title="0x04 采坑记录"></a>0x04 采坑记录</h1><h3 id="4-1-创建权限错误"><a href="#4-1-创建权限错误" class="headerlink" title="4.1 创建权限错误"></a>4.1 创建权限错误</h3><p>在创建API网管触发器的时候，出现操作未授权的错误，和教程不一样，网上也搜不到相关的信息。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191202104550.png" class="lozad"></p>
+<p>解决方法：其实就是用户自己没有授权，重新返回主页在点击去时会弹出授权，直接授权就好了。</p>
+<h1 id="0x05-甩锅"><a href="#0x05-甩锅" class="headerlink" title="0x05 甩锅"></a>0x05 甩锅</h1><ol>
+<li>教育版的5T空间可能会翻车，如果翻车，与作者无关奥。</li>
+<li>腾讯SCF现在开始收费了，之前是免费的，所以大家可以当做一个技术来学习，当前，不在乎这点钱的话可以考虑继续使用奥，具体的收费标准请自己到官网查看。</li>
+<li>设置了自定义域名后，可在互联网上直接发访问，所以一些私密的文件请不要上传到该网盘中，并且最好给文件夹加上密码，造成内部资料的泄露，作者不负责任奥。</li>
+</ol>
+<h1 id="0x06-参考连接"><a href="#0x06-参考连接" class="headerlink" title="0x06 参考连接"></a>0x06 参考连接</h1><p><a href="https://eebk.com/archives/30.html" target="_blank" rel="noopener">https://eebk.com/archives/30.html</a></p>
+<hr></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">madcoding</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.mad-coding.cn/2019/12/02/使用腾讯SCF-onedrive搭建5T个人网盘/">https://www.mad-coding.cn/2019/12/02/使用腾讯SCF-onedrive搭建5T个人网盘/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.mad-coding.cn">madcoding’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/个人网盘/">个人网盘    </a><a class="post-meta__tags" href="/tags/SCF/">SCF    </a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2019/11/27/nessus-pro破解安装及插件离线跟新/"><img class="next_cover lozad" data-src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1574852131731&amp;di=442e22ae84ac813774b1774194858cbb&amp;imgtype=0&amp;src=http%3A%2F%2Fy2.ifengimg.com%2Fa%2F2015_47%2Fd4b692e1b62b157.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>nessus pro破解安装及插件离线跟新</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2019/08/09/onedrive-oneindex打造属于自己的个人网盘/" title="onedrive+oneindex打造属于自己的个人网盘"><img class="relatedPosts_cover lozad" data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20191115150703.png"><div class="relatedPosts_title">onedrive+oneindex打造属于自己的个人网盘</div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'G4KVNWBtXJxgbEwcA9QMJGVo-gzGzoHsz',
+  appKey:'E8XbTUIA04PSPKW9rGpkjYg3',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 By madcoding</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi，welcome to madcoding's <a href="https://www.mad-coding.cn/">blog</a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/state/outPortal/loginPortal.action"><span>皖ICP备17023740号</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x00-前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">0x00 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x01-需求准备"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">0x01 需求准备</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x02-申请5T空间"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">0x02 申请5T空间</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x03-开启搭建之路"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text">0x03 开启搭建之路</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#3-1-下载-onedrive-SCF源码"><span class="toc_mobile_items-number">4.1.</span> <span class="toc_mobile_items-text">3.1 下载 onedrive_SCF源码</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#3-2-注册腾讯云"><span class="toc_mobile_items-number">4.2.</span> <span class="toc_mobile_items-text">3.2 注册腾讯云</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#3-3-配置云函数"><span class="toc_mobile_items-number">4.3.</span> <span class="toc_mobile_items-text">3.3 配置云函数</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-1-新建云函数"><span class="toc_mobile_items-number">4.3.1.</span> <span class="toc_mobile_items-text">3.3.1 新建云函数</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-2-上传onedrive-SCF文件夹"><span class="toc_mobile_items-number">4.3.2.</span> <span class="toc_mobile_items-text">3.3.2 上传onedrive_SCF文件夹</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-3-添加触发方式"><span class="toc_mobile_items-number">4.3.3.</span> <span class="toc_mobile_items-text">3.3.3 添加触发方式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-4-新建密钥"><span class="toc_mobile_items-number">4.3.4.</span> <span class="toc_mobile_items-text">3.3.4 新建密钥</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-5-添加环境变量"><span class="toc_mobile_items-number">4.3.5.</span> <span class="toc_mobile_items-text">3.3.5 添加环境变量</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-6-开始安装"><span class="toc_mobile_items-number">4.3.6.</span> <span class="toc_mobile_items-text">3.3.6 开始安装</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#3-3-7-自定义域名设置"><span class="toc_mobile_items-number">4.3.7.</span> <span class="toc_mobile_items-text">3.3.7 自定义域名设置</span></a></li></ol></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x04-采坑记录"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text">0x04 采坑记录</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#4-1-创建权限错误"><span class="toc_mobile_items-number">5.0.1.</span> <span class="toc_mobile_items-text">4.1 创建权限错误</span></a></li></ol></li></ol><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x05-甩锅"><span class="toc_mobile_items-number">6.</span> <span class="toc_mobile_items-text">0x05 甩锅</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x06-参考连接"><span class="toc_mobile_items-number">7.</span> <span class="toc_mobile_items-text">0x06 参考连接</span></a></li></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zindex="-1" data-click="false"></script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
