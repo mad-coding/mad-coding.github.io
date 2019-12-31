@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[JS文件信息收集工具-LinkFinder]]></title>
+    <url>%2F2019%2F12%2F23%2FJS%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E5%B7%A5%E5%85%B7-LinkFinder%2F</url>
+    <content type="text"><![CDATA[0x00 前言我们在渗透测试的之前，信息收集是必要的步骤，而JS文件中往往会暴露出很多的信息，比如一些注释的中铭感信息，内网ip地址泄露等等，还会有一些绝对路径或者相对路径的url，而这些url中很有可能就存在着一些未授权访问或者其他更高级的漏洞，但是手动的去一个个查看的效率太过于地下，所以这里分享一个JS文件的信息收集工具——LinkFinder 0x01 LinkFinder介绍LinkFinder是一个Python脚本，旨在发现JavaScript文件中的端点及其参数。这样，渗透测试人员和Bug猎手就可以在他们正在测试的网站上收集新的，隐藏的端点。导致新的测试环境，可能包含新的漏洞。它通过将jsbeautifier for python与相当大的正则表达式结合使用来实现。正则表达式由四个小的正则表达式组成。这些负责查找： 完整网址（https://example.com/*） 绝对URL或点分URL（/\*或../*） 带有至少一个斜杠（text/test.php）的相对URL 相对网址，不带斜线（test.php） 输出以HTML或纯文本形式给出 0x02 安装2.1 手动安装克隆到本地安装 LinkFinder支持Python 3。 123$ git clone https://github.com/GerbenJavado/LinkFinder.git$ cd LinkFinder$ python setup.py install 解决依赖关系 1pip3 install -r requirements.txt 2.2 Docker一键安装 创建docker镜像 docker build -t linkfinder 运行docker `docker run –rm -v $(pwd):/linkfinder/output linkfinder -i http://example.com/1.js -o /linkfinder/output/output.html`` 确保使用的``/linkfinder/output` 路径在你的输出路径， 0x03 使用方法3.1 参数解释 Short Form Long Form Description -i –input 输入一个URL，文件或者文件夹，js文件必须要以.js后缀结尾 -o –output 默认是以html的结果输出，也可以使用命令行的形式输出 -r –regex 使用正则快速的筛选我们需要的信息 (e.g. ^/api/) -d –domain Toggle to use when analyzing an entire domain. Enumerates over all found JS files. -b –burp Toggle to use when inputting a Burp ‘Save selected’ file containing multiple JS files -c –cookies Add cookies to the request -h –help show the help message and exit 3.2 使用示例 在在线JavaScript文件中查找端点并将HTML结果输出到results.html的最基本用法： 1python linkfinder.py -i https://example.com/1.js -o results.html CLI / STDOUT输出（不使用jsbeautifier，这使其非常快）： 1python linkfinder.py -i https://example.com/1.js -o cli 分析整个域及其JS文件： 1python linkfinder.py -i https://example.com -d 打p输入（在目标中选择要保存的文件，右键单击，然后Save selected items将该文件作为输入）： 1python linkfinder.py -i burpfile -b 枚举JavaScript文件的整个文件夹，同时查找以/ api /开头的端点，最后将结果保存到results.html中： 1python linkfinder.py -i &apos;Desktop/*.js&apos; -r ^/api/ -o results.html 0x04 使用截图]]></content>
+      <categories>
+        <category>神兵利器</category>
+      </categories>
+      <tags>
+        <tag>LinkFinder</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[waf的识别与绕过（不断补充）]]></title>
+    <url>%2F2019%2F12%2F19%2Fwaf%E7%9A%84%E8%AF%86%E5%88%AB%E4%B8%8E%E7%BB%95%E8%BF%87%EF%BC%88%E4%B8%8D%E6%96%AD%E8%A1%A5%E5%85%85%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[0x00 前言我们在渗透测试的过程中，一般大型的网站都会有waf等安全设备，对于我这种脚本小子来说，一下子就“萎了”，所以这里记载下常见的waf，以及一些常见的绕过方式，相关资料收集于互联网，如有侵权，请与我联系。 0x01 安全狗 0x02 D盾 0x03 亚信安全（deep dege）0x04 yxlink waf0x05 创宇盾 0x06 玄武盾 0x07 腾讯门神 0x08 阿里云 0x09 网防G01 0x10 wts-waf #0x11 Webknight #0x12 ModSecurity 0x13长亭safeline 0x14 openRasp 0x15 F5 waf 0x16 南京铱讯 waf 0x17 网宿云waf]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>waf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Kali Linux 2019.4解决中文乱码问题]]></title>
+    <url>%2F2019%2F12%2F03%2FKali-Linux-2019-4%E8%A7%A3%E5%86%B3%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[0x00 前言Kali Linux不用多说，知道的人都知道，国外的一个渗透测试系统，集成了很多的渗透工具，最近跟新了2019.4但是很多小伙伴安装后显示有中文乱码问题，这里教大家如何解决。 0x01 更换Kali 清华大学源使用vim编辑器修改：vim /etc/apt/sources.list添加Kali 清华大学源使用mousepad编辑器修改：mousepad /etc/apt/sources.list添Kali 清华大学源 1234#清华大学 [更新源]deb https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-freedeb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free 编辑结束保存文件，终端中输入下面的命令 apt-get clean &amp;&amp; apt-get update -y 0x02 安装字体在终端中输入下面的命令，安装开源的文泉驿微米黑和文泉驿正黑字体 sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei xfonts-intl-chinese 0x03 更改默认编码在终端中输入dpkg-reconfigure locales 进入图形化界面之后，选中1en_US.UTF-8 UTF-81和zh_CN.UTF-8 UTF-8，空格是选择，Tab是切换，*是选中） 确定后，将zh_CN.UTF-8 UTF-8选为默认。 dpkg-reconfigure locales 0x04 重启输入reboot命令，重启kali后，一切显示正常。 #0x05 参考： 参考群里大佬的分享。]]></content>
+      <categories>
+        <category>神兵利器</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[使用腾讯SCF+onedrive搭建5T个人网盘]]></title>
     <url>%2F2019%2F12%2F02%2F%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AFSCF-onedrive%E6%90%AD%E5%BB%BA5T%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%9B%98%2F</url>
     <content type="text"><![CDATA[0x00 前言前几日在群里看到有人使用腾讯的SCF（云函数）+onedrive来搭建属于自己的个人网盘，对此我颇有兴趣今日就来研究研究，今将研究结果奉上，如有不足之处，还请提出改正，共同进步。 0x01 需求准备 onedrive账号（推荐教育版5T） onedrive_SCF源码 个人域名 腾讯云账号 0x02 申请5T空间原理就是使用临时邮箱申请5T空间，之前的那个申请网站由于被人恶意使用短信炸弹轰炸，已经不能收到短信了，所以，今天推荐另一个网站。 ps:个人不保证不会翻车，大家可以用来做自己的备份云盘。 申请5T空间：传送门 申请教程可参考我的另一篇文章：onedrive+oneindex打造属于自己的个人网盘 0x03 开启搭建之路3.1 下载 onedrive_SCF源码 https://github.com/Tai7sy/OneDrive_SCF 3.2 注册腾讯云 https://cloud.tencent.com/ 3.3 配置云函数3.3.1 新建云函数登录腾讯云函数平台后，新建一个云函数，地区选择香港或者新加坡地区。创建的云函数名称随便填写，运行的环境选择PHP7.2 ，创建方式选择模板函数；模板选择helloword模板，下一步直接完成。 创建一个新的函数服务，地址选择中国香港 新建一个helloworld模板函数 拉到最下面，点击下一步，然后点击完成 3.3.2 上传onedrive_SCF文件夹从GitHub下载OneDrive_SCF源码，进入函数服务选择函数代码，提交代码选择本地上传文件夹，上传刚才解压的文件夹（注意：如果解压了双层文件夹需要点入第二个文件夹） 3.3.3 添加触发方式 选择API网关触发器，勾选启用集成响应，然后点击保存。 然后会生成一个访问路径。点击这个路径 3.3.4 新建密钥 然后使用微信扫描二维码，获得密钥全部的内容 3.3.5 添加环境变量 将刚刚的新建的秘钥添加到环境变量中。 添加完成 其他的环境变量添加 12345sitename=站点名称private_path=Onedrive根路径（绑定自定义域名使用）public_path=Onedrive根路径（未绑定自定义域名使用）passfile=.password(加密文件)admin=管理员密码 3.3.6 开始安装再次刷新刚刚的错误页面 登录OneDrive账号，这里我已经登录过了，直接选择就行了。 成功登录后自动跳转到云盘 3.3.7 自定义域名设置点击触发方式，然后点击API服务名 选择自定义域名，新建。 在域名厂商设置域名解析，我域名是在腾讯买的，所以直接到域名解析出添加一个域名解析记录，主机记录就是二级域名，记录类型是CNAME（域名指向域名），记录值填触发方式中的访问路径。 设置完域名解析后，在到自定义域名除继续设置。 ps:没有证书的话，就选择http协议。 在index.php中的609行左右，添加域名协议的代码 if (location.protocol === "http:") { location.href = location.href.replace(/http/, "https"); } 再次使用域名访问，显示没有uri路径设置有问题。 重新修改路径 再次使用域名访问 0x04 采坑记录4.1 创建权限错误在创建API网管触发器的时候，出现操作未授权的错误，和教程不一样，网上也搜不到相关的信息。 解决方法：其实就是用户自己没有授权，重新返回主页在点击去时会弹出授权，直接授权就好了。 0x05 甩锅 教育版的5T空间可能会翻车，如果翻车，与作者无关奥。 腾讯SCF现在开始收费了，之前是免费的，所以大家可以当做一个技术来学习，当前，不在乎这点钱的话可以考虑继续使用奥，具体的收费标准请自己到官网查看。 设置了自定义域名后，可在互联网上直接发访问，所以一些私密的文件请不要上传到该网盘中，并且最好给文件夹加上密码，造成内部资料的泄露，作者不负责任奥。 0x06 参考连接https://eebk.com/archives/30.html]]></content>
